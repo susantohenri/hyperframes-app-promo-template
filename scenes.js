@@ -1,0 +1,70 @@
+window.SCENES_DATA = {
+  "project": {
+    "appName": "Ghusl: Fiqih Mandi Wajib",
+    "websiteUrl": "https://play.google.com/store/apps/details?id=com.niatmandiwajib.ghusl",
+    "ctaHeadline": "DOWNLOAD DI GOOGLE PLAY",
+    "ctaSubline": "Cari 'Ghusl: Fiqih Mandi Wajib Lengkap'",
+    "theme": {
+      "primaryColor": "#2D6A4F",
+      "accentColor": "#52B788",
+      "highlightColor": "#FFD166",
+      "bgDark": "#0F1713"
+    },
+    "audio": {
+      "bgmSrc": "",
+      "bgmVolume": 0.15,
+      "voiceoverSrc": ""
+    }
+  },
+  "scenes": [
+    {
+      "id": "scene-1",
+      "type": "video",
+      "mediaSrc": "assets/intro_20261027150425.mp4",
+      "audioSrc": "assets/1.wav",
+      "durationInSeconds": 3.5,
+      "badge": "🚨 MASALAH UTAMA",
+      "headline": "BAGIAN YANG SERING TERLEWAT",
+      "highlightWords": ["SERING TERLEWAT"],
+      "subtitle": "Ada satu bagian mandi wajib yang sering terlewat dan menentukan sahnya.",
+      "animation": "slam"
+    },
+    {
+      "id": "scene-2",
+      "type": "image",
+      "mediaSrc": "assets/2_20261027150425.jpg",
+      "audioSrc": "assets/2.wav",
+      "durationInSeconds": 4.0,
+      "badge": "💡 BUKAN CUMA NIAT",
+      "headline": "RATA AIR KE SELURUH TUBUH",
+      "highlightWords": ["RATA AIR"],
+      "subtitle": "Bukan cuma niat—rata air ke seluruh tubuh juga menentukan sahnya.",
+      "animation": "pop"
+    },
+    {
+      "id": "scene-3",
+      "type": "image",
+      "mediaSrc": "assets/3_20261027150425.jpg",
+      "audioSrc": "assets/3.wav",
+      "durationInSeconds": 4.5,
+      "badge": "🕌 PANDUAN SUNNAH",
+      "headline": "PANDUAN LENGKAP SESUAI SUNNAH",
+      "highlightWords": ["LENGKAP", "SUNNAH"],
+      "subtitle": "Aplikasi Ghusl memandu dari niat sampai tata cara lengkap, sesuai sunnah.",
+      "animation": "pop"
+    },
+    {
+      "id": "scene-final",
+      "type": "video",
+      "mediaSrc": "assets/outro_20261027150425.mp4",
+      "audioSrc": "assets/7.wav",
+      "durationInSeconds": 4.0,
+      "badge": "⬇️ COBA SEKARANG",
+      "headline": "DOWNLOAD DI GOOGLE PLAY",
+      "highlightWords": ["DOWNLOAD", "GOOGLE PLAY"],
+      "subtitle": "Cari Ghusl di Google Play, dan mulai belajar dengan tenang.",
+      "animation": "slam"
+    }
+  ]
+}
+;

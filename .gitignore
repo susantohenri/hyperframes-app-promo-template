@@ -1,0 +1,7 @@
+node_modules/
+renders/
+*.mp4
+.hyperframes/
+preview_snapshots/
+.DS_Store
+Thumbs.db

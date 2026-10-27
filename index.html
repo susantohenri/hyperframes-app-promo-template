@@ -1,0 +1,491 @@
+<!doctype html>
+<html lang="id" data-resolution="portrait">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1080, height=1920" />
+    <title>Universal App Promo</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800;900&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+    <!-- GSAP -->
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+    <style>
+      :root {
+        --color-primary: #2D6A4F;
+        --color-accent: #52B788;
+        --color-highlight: #FFD166;
+        --color-bg-dark: #0F1713;
+        --color-card-bg: rgba(15, 26, 21, 0.85);
+        --font-headline: 'Montserrat', sans-serif;
+        --font-body: 'Inter', sans-serif;
+      }
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      html, body {
+        width: 1080px;
+        height: 1920px;
+        overflow: hidden;
+        background: var(--color-bg-dark);
+        font-family: var(--font-body);
+        color: #ffffff;
+      }
+
+      #root {
+        position: relative;
+        width: 1080px;
+        height: 1920px;
+        overflow: hidden;
+      }
+
+      /* Global Progress Bar */
+      #progress-wrap {
+        position: absolute;
+        top: 28px;
+        left: 40px;
+        right: 40px;
+        height: 8px;
+        background: rgba(255, 255, 255, 0.2);
+        border-radius: 999px;
+        overflow: hidden;
+        z-index: 999;
+      }
+
+      #progress-bar {
+        width: 0%;
+        height: 100%;
+        background: linear-gradient(90deg, var(--color-accent), var(--color-highlight));
+      }
+
+      /* Base Clip Structure */
+      .clip {
+        position: absolute;
+        inset: 0;
+        width: 1080px;
+        height: 1920px;
+        overflow: hidden;
+      }
+
+      .scene-inner {
+        position: absolute;
+        inset: 0;
+        width: 1080px;
+        height: 1920px;
+        overflow: hidden;
+      }
+
+      .bg-wrapper {
+        position: absolute;
+        inset: 0;
+        width: 1080px;
+        height: 1920px;
+        overflow: hidden;
+      }
+
+      .scene-media {
+        width: 1080px;
+        height: 1920px;
+        object-fit: cover;
+        display: block;
+      }
+
+      .gradient-overlay {
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(
+          180deg,
+          rgba(0, 0, 0, 0.45) 0%,
+          rgba(0, 0, 0, 0.15) 30%,
+          rgba(0, 0, 0, 0.3) 55%,
+          rgba(10, 18, 14, 0.88) 80%,
+          rgba(10, 18, 14, 0.98) 100%
+        );
+      }
+
+      /* Brand Header Top */
+      .brand-header {
+        position: absolute;
+        top: 60px;
+        left: 48px;
+        right: 48px;
+        z-index: 50;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+      }
+
+      .brand-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 12px;
+        background: rgba(0, 0, 0, 0.5);
+        backdrop-filter: blur(12px);
+        border: 1px solid rgba(255, 255, 255, 0.15);
+        padding: 10px 22px;
+        border-radius: 999px;
+        font-family: var(--font-headline);
+        font-size: 28px;
+        font-weight: 700;
+        color: #ffffff;
+        letter-spacing: 0.5px;
+      }
+
+      .brand-dot {
+        width: 12px;
+        height: 12px;
+        border-radius: 50%;
+        background: var(--color-accent);
+      }
+
+      /* Content Overlay (Middle - Bottom) */
+      .content-overlay {
+        position: absolute;
+        bottom: 240px;
+        left: 48px;
+        right: 48px;
+        z-index: 50;
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+      }
+
+      .scene-badge {
+        align-self: flex-start;
+        background: var(--color-primary);
+        border: 1.5px solid var(--color-accent);
+        color: #ffffff;
+        font-family: var(--font-headline);
+        font-size: 28px;
+        font-weight: 800;
+        letter-spacing: 1px;
+        padding: 10px 24px;
+        border-radius: 999px;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+      }
+
+      .scene-headline {
+        font-family: var(--font-headline);
+        font-size: 58px;
+        font-weight: 900;
+        line-height: 1.15;
+        letter-spacing: -0.5px;
+        text-transform: uppercase;
+        color: #ffffff;
+        text-shadow: 0 4px 16px rgba(0, 0, 0, 0.85);
+      }
+
+      .scene-headline .highlight {
+        color: var(--color-highlight);
+      }
+
+      .subtitle-card {
+        background: var(--color-card-bg);
+        border: 1px solid rgba(255, 255, 255, 0.12);
+        backdrop-filter: blur(16px);
+        border-radius: 20px;
+        padding: 22px 28px;
+      }
+
+      .subtitle-text {
+        font-family: var(--font-body);
+        font-size: 32px;
+        font-weight: 500;
+        line-height: 1.4;
+        color: rgba(255, 255, 255, 0.95);
+      }
+
+      /* Bottom CTA Bar */
+      .bottom-cta-bar {
+        position: absolute;
+        bottom: 48px;
+        left: 48px;
+        right: 48px;
+        z-index: 50;
+        background: rgba(0, 0, 0, 0.65);
+        backdrop-filter: blur(20px);
+        border: 1px solid rgba(255, 255, 255, 0.15);
+        border-radius: 24px;
+        padding: 20px 28px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+      }
+
+      .bottom-cta-left {
+        display: flex;
+        align-items: center;
+        gap: 16px;
+      }
+
+      .bottom-cta-icon {
+        font-size: 40px;
+      }
+
+      .bottom-cta-title {
+        font-family: var(--font-headline);
+        font-size: 30px;
+        font-weight: 800;
+        color: #ffffff;
+      }
+
+      .bottom-cta-sub {
+        font-family: var(--font-body);
+        font-size: 28px;
+        color: rgba(255, 255, 255, 0.7);
+      }
+
+      .bottom-cta-btn {
+        background: var(--color-accent);
+        color: #000000;
+        font-family: var(--font-headline);
+        font-size: 28px;
+        font-weight: 800;
+        padding: 14px 28px;
+        border-radius: 999px;
+        letter-spacing: 0.5px;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="root" data-composition-id="main" data-width="1080" data-height="1920">
+      <!-- Progress Bar -->
+      <div id="progress-wrap"><div id="progress-bar"></div></div>
+
+      <!-- Container Scenes (generated dynamically) -->
+      <div id="scenes-wrapper"></div>
+
+      <!-- Audio Container -->
+      <div id="audio-wrapper"></div>
+    </div>
+
+    <!-- Default / Fallback configuration data -->
+    <script id="default-scenes-data" type="application/json">
+{
+  "project": {
+    "appName": "Ghusl: Fiqih Mandi Wajib",
+    "websiteUrl": "https://play.google.com/store/apps/details?id=com.niatmandiwajib.ghusl",
+    "ctaHeadline": "DOWNLOAD DI GOOGLE PLAY",
+    "ctaSubline": "Cari 'Ghusl: Fiqih Mandi Wajib Lengkap'",
+    "theme": {
+      "primaryColor": "#2D6A4F",
+      "accentColor": "#52B788",
+      "highlightColor": "#FFD166"
+    }
+  },
+  "scenes": [
+    {
+      "id": "scene-1",
+      "type": "video",
+      "mediaSrc": "assets/intro_20261027150425.mp4",
+      "audioSrc": "assets/1.wav",
+      "durationInSeconds": 3.5,
+      "badge": "🚨 MASALAH UTAMA",
+      "headline": "BAGIAN YANG SERING TERLEWAT",
+      "highlightWords": ["SERING TERLEWAT"],
+      "subtitle": "Ada satu bagian mandi wajib yang sering terlewat dan menentukan sahnya.",
+      "animation": "slam"
+    },
+    {
+      "id": "scene-2",
+      "type": "image",
+      "mediaSrc": "assets/2_20261027150425.jpg",
+      "audioSrc": "assets/2.wav",
+      "durationInSeconds": 4.0,
+      "badge": "💡 BUKAN CUMA NIAT",
+      "headline": "RATA AIR KE SELURUH TUBUH",
+      "highlightWords": ["RATA AIR"],
+      "subtitle": "Bukan cuma niat—rata air ke seluruh tubuh juga menentukan sahnya.",
+      "animation": "pop"
+    },
+    {
+      "id": "scene-3",
+      "type": "image",
+      "mediaSrc": "assets/3_20261027150425.jpg",
+      "audioSrc": "assets/3.wav",
+      "durationInSeconds": 4.5,
+      "badge": "🕌 PANDUAN SUNNAH",
+      "headline": "PANDUAN LENGKAP SESUAI SUNNAH",
+      "highlightWords": ["LENGKAP", "SUNNAH"],
+      "subtitle": "Aplikasi Ghusl memandu dari niat sampai tata cara lengkap, sesuai sunnah.",
+      "animation": "pop"
+    },
+    {
+      "id": "scene-final",
+      "type": "video",
+      "mediaSrc": "assets/outro_20261027150425.mp4",
+      "audioSrc": "assets/7.wav",
+      "durationInSeconds": 4.0,
+      "badge": "⬇️ COBA SEKARANG",
+      "headline": "DOWNLOAD DI GOOGLE PLAY",
+      "highlightWords": ["DOWNLOAD", "GOOGLE PLAY"],
+      "subtitle": "Cari Ghusl di Google Play, dan mulai belajar dengan tenang.",
+      "animation": "slam"
+    }
+  ]
+}
+    </script>
+
+    <!-- Data Script -->
+    <script src="scenes.js"></script>
+
+    <script>
+      (function() {
+        // 1. Resolve Config Data (priority: CLI variables -> window.SCENES_DATA -> default-scenes-data tag)
+        let config = null;
+        if (window.__hyperframes && typeof window.__hyperframes.getVariables === 'function') {
+          const vars = window.__hyperframes.getVariables();
+          if (vars && vars.scenes && vars.scenes.length > 0) {
+            config = vars;
+          }
+        }
+        if (!config && window.SCENES_DATA) {
+          config = window.SCENES_DATA;
+        }
+        if (!config) {
+          const raw = document.getElementById('default-scenes-data').textContent;
+          try { config = JSON.parse(raw); } catch (e) { console.error('Parse error', e); }
+        }
+
+        if (!config || !config.scenes) {
+          console.error('No scenes config available!');
+          return;
+        }
+
+        // Apply theme colors if defined
+        if (config.project && config.project.theme) {
+          const t = config.project.theme;
+          if (t.primaryColor) document.documentElement.style.setProperty('--color-primary', t.primaryColor);
+          if (t.accentColor) document.documentElement.style.setProperty('--color-accent', t.accentColor);
+          if (t.highlightColor) document.documentElement.style.setProperty('--color-highlight', t.highlightColor);
+          if (t.bgDark) document.documentElement.style.setProperty('--color-bg-dark', t.bgDark);
+        }
+
+        const scenesWrapper = document.getElementById('scenes-wrapper');
+        const audioWrapper = document.getElementById('audio-wrapper');
+        const appName = config.project?.appName || 'App Name';
+        const ctaBtnText = config.project?.ctaButton || 'Google Play';
+
+        // Register Paused Root GSAP Timeline
+        window.__timelines = window.__timelines || {};
+        const tl = gsap.timeline({ paused: true });
+
+        let currentStart = 0;
+
+        // Render each scene and attach GSAP tweens
+        config.scenes.forEach((scene, index) => {
+          const start = currentStart;
+          const duration = parseFloat(scene.durationInSeconds) || 4.0;
+          const sceneId = `scene-${index + 1}`;
+          const isLast = (index === config.scenes.length - 1);
+
+          // Highlight words in headline
+          let formattedHeadline = scene.headline || '';
+          if (scene.highlightWords && Array.isArray(scene.highlightWords)) {
+            scene.highlightWords.forEach(word => {
+              const regex = new RegExp(`(${word})`, 'gi');
+              formattedHeadline = formattedHeadline.replace(regex, '<span class="highlight">$1</span>');
+            });
+          }
+
+          // Build Scene HTML
+          const clip = document.createElement('div');
+          clip.id = sceneId;
+          clip.className = 'clip';
+          clip.setAttribute('data-start', start.toFixed(2));
+          clip.setAttribute('data-duration', duration.toFixed(2));
+          clip.setAttribute('data-track-index', '1');
+
+          clip.innerHTML = `
+            <div class="scene-inner" id="${sceneId}-inner">
+              <div class="bg-wrapper">
+                ${scene.type === 'video'
+                  ? `<video id="${sceneId}-media" class="scene-media" src="${scene.mediaSrc}" ${scene.hasAudio ? 'data-has-audio="true"' : 'muted'}></video>`
+                  : `<img id="${sceneId}-media" class="scene-media" src="${scene.mediaSrc}" alt="Scene ${index + 1}" />`
+                }
+                <div class="gradient-overlay"></div>
+              </div>
+              <div class="brand-header">
+                <div class="brand-badge"><span class="brand-dot"></span> ${appName}</div>
+              </div>
+              <div class="content-overlay">
+                <div id="${sceneId}-badge" class="scene-badge">${scene.badge || 'INFO'}</div>
+                <h1 id="${sceneId}-headline" class="scene-headline">${formattedHeadline}</h1>
+                <div id="${sceneId}-sub" class="subtitle-card">
+                  <p class="subtitle-text">${scene.subtitle || ''}</p>
+                </div>
+              </div>
+              <div class="bottom-cta-bar">
+                <div class="bottom-cta-left">
+                  <span class="bottom-cta-icon">📲</span>
+                  <div>
+                    <div class="bottom-cta-title">${appName}</div>
+                    <div class="bottom-cta-sub">${config.project?.ctaSubline || 'Panduan Lengkap'}</div>
+                  </div>
+                </div>
+                <div class="bottom-cta-btn">${ctaBtnText}</div>
+              </div>
+            </div>
+          `;
+
+          scenesWrapper.appendChild(clip);
+
+          // Attach Audio if present
+          if (scene.audioSrc) {
+            const audioEl = document.createElement('audio');
+            audioEl.src = scene.audioSrc;
+            audioEl.setAttribute('data-start', start.toFixed(2));
+            audioEl.setAttribute('data-duration', duration.toFixed(2));
+            audioWrapper.appendChild(audioEl);
+          }
+
+          // GSAP Animations
+          const innerSel = `#${sceneId}-inner`;
+          const mediaSel = `#${sceneId}-media`;
+          const badgeSel = `#${sceneId}-badge`;
+          const headSel = `#${sceneId}-headline`;
+          const subSel = `#${sceneId}-sub`;
+
+          // 1. Scene fade in
+          tl.fromTo(innerSel, { opacity: 0 }, { opacity: 1, duration: 0.3, ease: 'power2.out' }, start);
+
+          // 2. Ken Burns slow push-in for images
+          if (scene.type === 'image') {
+            tl.fromTo(mediaSel, { scale: 1.0, y: 0 }, { scale: 1.08, y: -20, duration: duration, ease: 'none' }, start);
+          }
+
+          // 3. Badge entrance
+          tl.fromTo(badgeSel, { scale: 0, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.35, ease: 'back.out(2)' }, start + 0.15);
+
+          // 4. Headline Kinetic Slam entrance
+          if (scene.animation === 'slam') {
+            tl.fromTo(headSel, { scale: 1.35, opacity: 0, y: 30 }, { scale: 1, opacity: 1, y: 0, duration: 0.4, ease: 'power4.out' }, start + 0.3);
+          } else {
+            tl.fromTo(headSel, { scale: 0.8, opacity: 0, y: 20 }, { scale: 1, opacity: 1, y: 0, duration: 0.4, ease: 'back.out(1.7)' }, start + 0.3);
+          }
+
+          // 5. Subtitle Card float up
+          tl.fromTo(subSel, { y: 40, opacity: 0 }, { y: 0, opacity: 1, duration: 0.38, ease: 'power3.out' }, start + 0.5);
+
+          // 6. Scene exit fade (except the very last scene)
+          if (!isLast) {
+            tl.to(innerSel, { opacity: 0.2, duration: 0.2, ease: 'power1.in' }, start + duration - 0.2);
+          }
+
+          currentStart += duration;
+        });
+
+        // Global Progress Bar Animation
+        tl.fromTo('#progress-bar', { width: '0%' }, { width: '100%', duration: currentStart, ease: 'none' }, 0);
+
+        // Register root timeline to HyperFrames
+        window.__timelines['main'] = tl;
+        tl.seek(0);
+      })();
+    </script>
+  </body>
+</html>
