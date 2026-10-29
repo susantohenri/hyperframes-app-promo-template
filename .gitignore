@@ -5,3 +5,5 @@ renders/
 preview_snapshots/
 .DS_Store
 Thumbs.db
+.thumbnails/
+.waveform-cache/

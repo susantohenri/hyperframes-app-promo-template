@@ -377,7 +377,7 @@
       }
 
       .layout-floating-ui .content-overlay {
-        bottom: 270px;
+        bottom: 260px;
         background: rgba(15, 26, 36, 0.8);
         backdrop-filter: blur(24px);
         border: 1.5px solid rgba(255, 255, 255, 0.22);
@@ -507,7 +507,7 @@
       /* Bottom CTA Bar */
       .bottom-cta-bar {
         position: absolute;
-        bottom: 48px;
+        bottom: 90px;
         left: 48px;
         right: 48px;
         z-index: 50;
@@ -528,7 +528,10 @@
       }
 
       .bottom-cta-icon {
-        font-size: 40px;
+        width: 44px;
+        height: 44px;
+        flex-shrink: 0;
+        display: block;
       }
 
       .bottom-cta-title {
@@ -720,7 +723,7 @@
           let overlayFxHtml = '';
           if (Array.isArray(scene.overlayElements) && (scene.overlayElements.includes('sparkles') || scene.overlayElements.includes('confetti'))) {
             overlayFxHtml = `
-              <div class="overlay-sparkles" id="${sceneId}-sparkles">
+              <div class="overlay-sparkles" id="${sceneId}-sparkles" data-layout-allow-overlap="true" data-layout-ignore="true">
                 <span class="sparkle-icon" style="top: 18%; left: 14%;">✨</span>
                 <span class="sparkle-icon" style="top: 28%; right: 16%; font-size: 46px;">🎉</span>
                 <span class="sparkle-icon" style="top: 62%; left: 18%; font-size: 34px;">⭐</span>
@@ -767,9 +770,16 @@
                 </div>
               </div>
 
-              <div class="bottom-cta-bar">
+              <div class="bottom-cta-bar" data-layout-ignore="true">
                 <div class="bottom-cta-left">
-                  <span class="bottom-cta-icon">📲</span>
+                  <svg class="bottom-cta-icon" viewBox="0 0 466 512" width="44" height="44" xmlns="http://www.w3.org/2000/svg">
+                    <g fill-rule="nonzero">
+                      <path fill="#00D3FF" d="M1.39 41.86C0 46.04 0 51.63 0 57.2v397.64c0 5.57 0 9.76 1.4 15.34l216.27-214.86L1.39 41.86z"/>
+                      <path fill="#00E676" d="M199.42 273.45 329.27 145.1 87.9 8.37C79.53 2.79 68.36 0 57.2 0 30.7 0 6.98 18.14 1.4 41.86l198.02 231.59z"/>
+                      <path fill="#FFC107" d="m433.91 205.1-104.65-60-111.61 110.22 113.01 108.83 104.64-58.6c18.14-9.77 30.7-29.3 30.7-50.23-1.4-20.93-13.95-40.46-32.09-50.22z"/>
+                      <path fill="#FF334C" d="M199.9 237.8 1.4 470.17c7.22 24.57 30.16 41.81 55.8 41.81 11.16 0 20.93-2.79 29.3-8.37l244.16-139.46L199.9 237.8z"/>
+                    </g>
+                  </svg>
                   <div>
                     <div class="bottom-cta-title">${appName}</div>
                     <div class="bottom-cta-sub">${config.project?.ctaSubline || 'Panduan Lengkap'}</div>
