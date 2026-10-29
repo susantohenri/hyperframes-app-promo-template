@@ -12,7 +12,43 @@ if (!fs.existsSync(assetsDir)) {
   fs.mkdirSync(assetsDir, { recursive: true });
 }
 
-// Optional: check if --import or --from-downloads flag is passed
+// Function to sort Google AI Studio TTS files by createdAt down to second/millisecond precision
+function processGoogleAiStudioTTS(searchDir, destDir) {
+  if (!fs.existsSync(searchDir)) return false;
+  const files = fs.readdirSync(searchDir);
+  const ttsFiles = files.filter(f => /^Generated Audio.*\.(wav|mp3|ogg|m4a)$/i.test(f));
+  if (ttsFiles.length === 0) return false;
+
+  const recentTTS = ttsFiles.map(f => {
+    const fullPath = path.join(searchDir, f);
+    const stat = fs.statSync(fullPath);
+    const createdTime = stat.birthtimeMs || stat.mtimeMs;
+    return { name: f, fullPath, stat, createdTime };
+  }).filter(item => Date.now() - item.createdTime < 24 * 60 * 60 * 1000);
+
+  if (recentTTS.length === 0) return false;
+
+  // Sort ascending by creation time: earliest generated = Scene 1, latest = Scene N
+  recentTTS.sort((a, b) => a.createdTime - b.createdTime);
+
+  console.log(`[sync] Menemukan ${recentTTS.length} audio Google AI Studio TTS (diurutkan otomatis dari detik unduhan):`);
+  recentTTS.forEach((item, index) => {
+    const sceneNum = index + 1;
+    const destName = `${sceneNum}.wav`;
+    const destPath = path.join(destDir, destName);
+    const timeStr = new Date(item.createdTime).toLocaleTimeString();
+    
+    fs.copyFileSync(item.fullPath, destPath);
+    console.log(`  🎵 Scene ${sceneNum} -> assets/${destName} (Diunduh: ${timeStr} | File: "${item.name}")`);
+  });
+
+  return true;
+}
+
+// 1. Check if there are Generated Audio files already dropped in assets/
+processGoogleAiStudioTTS(assetsDir, assetsDir);
+
+// 2. Optional: check if --import or --from-downloads flag is passed
 const args = process.argv.slice(2);
 const shouldImportDownloads = args.includes('--import') || args.includes('--from-downloads');
 if (shouldImportDownloads) {
@@ -20,6 +56,9 @@ if (shouldImportDownloads) {
   const downloadsDir = path.join(userHome, 'Downloads');
   if (fs.existsSync(downloadsDir)) {
     console.log(`[sync] Scanning Downloads folder: ${downloadsDir}`);
+    // Auto process Google AI Studio TTS directly from Downloads
+    processGoogleAiStudioTTS(downloadsDir, assetsDir);
+
     const downloadFiles = fs.readdirSync(downloadsDir);
     // Patterns for Google Flow / project assets:
     // intro_*.mp4, outro_*.mp4, [0-9]_*.jpg, [0-9].wav, etc.

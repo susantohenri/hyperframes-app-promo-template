@@ -22,7 +22,7 @@ window.SCENES_DATA = {
       "type": "video",
       "mediaSrc": "assets/intro_04077952.mp4",
       "audioSrc": "assets/1.wav",
-      "durationInSeconds": 4.6,
+      "durationInSeconds": 8.1,
       "badge": "HOOK",
       "headline": "HAMPIR UNINSTALL",
       "highlightWords": [
@@ -30,7 +30,7 @@ window.SCENES_DATA = {
       ],
       "subtitle": "Aku hampir uninstall Fortnite karena bosan.",
       "animation": "slam",
-      "audioDuration": 4.2
+      "audioDuration": 7.72
     },
     {
       "id": "scene-2",
