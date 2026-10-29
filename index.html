@@ -1,22 +1,22 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="id" data-resolution="portrait">
   <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=1080, height=1920" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=1080, height=1920">
     <title>Universal App Promo</title>
     <!-- Google Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800;900&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800;900&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
     <!-- GSAP -->
     <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
     <style>
       :root {
-        --color-primary: #2D6A4F;
-        --color-accent: #52B788;
-        --color-highlight: #FFD166;
-        --color-bg-dark: #0F1713;
-        --color-card-bg: rgba(15, 26, 21, 0.85);
+        --color-primary: #7C3AED;
+        --color-accent: #F59E0B;
+        --color-highlight: #22D3EE;
+        --color-bg-dark: #0B1020;
+        --color-card-bg: rgba(15, 26, 36, 0.88);
         --color-badge-text: #ffffff;
         --color-btn-text: #000000;
         --font-headline: 'Montserrat', sans-serif;
@@ -89,6 +89,27 @@
         overflow: hidden;
       }
 
+      /* Blurred duplicate background for card/phone treatments */
+      .bg-backdrop-blur {
+        position: absolute;
+        inset: 0;
+        width: 1080px;
+        height: 1920px;
+        object-fit: cover;
+        filter: blur(50px) brightness(0.32);
+        transform: scale(1.18);
+        display: block;
+      }
+
+      /* Media Stage & Containers */
+      .media-container {
+        position: absolute;
+        inset: 0;
+        width: 1080px;
+        height: 1920px;
+        overflow: hidden;
+      }
+
       .scene-media {
         width: 1080px;
         height: 1920px;
@@ -96,17 +117,190 @@
         display: block;
       }
 
+      /* --- IMAGE TREATMENTS --- */
+      .treatment-full-bleed {
+        inset: 0;
+        width: 1080px;
+        height: 1920px;
+      }
+
+      .treatment-rounded-card {
+        top: 140px;
+        left: 60px;
+        right: 60px;
+        width: 960px;
+        height: 1380px;
+        border-radius: 44px;
+        overflow: hidden;
+        box-shadow: 0 35px 80px rgba(0, 0, 0, 0.75);
+        border: 2px solid rgba(255, 255, 255, 0.2);
+      }
+      .treatment-rounded-card .scene-media {
+        width: 100%;
+        height: 100%;
+      }
+
+      .treatment-tilted-card {
+        top: 150px;
+        left: 60px;
+        right: 60px;
+        width: 960px;
+        height: 1360px;
+        border-radius: 40px;
+        transform: rotate(-2.5deg);
+        overflow: hidden;
+        box-shadow: 0 40px 90px rgba(0, 0, 0, 0.85);
+        border: 2px solid rgba(255, 255, 255, 0.25);
+      }
+      .treatment-tilted-card .scene-media {
+        width: 100%;
+        height: 100%;
+      }
+
+      .treatment-floating-panel {
+        top: 150px;
+        left: 60px;
+        right: 60px;
+        width: 960px;
+        height: 1360px;
+        border-radius: 40px;
+        overflow: hidden;
+        box-shadow: 0 30px 80px rgba(124, 58, 237, 0.45);
+        border: 2.5px solid rgba(255, 255, 255, 0.35);
+      }
+      .treatment-floating-panel .scene-media {
+        width: 100%;
+        height: 100%;
+      }
+
+      .treatment-phone-mockup {
+        top: 130px;
+        left: 110px;
+        width: 860px;
+        height: 1460px;
+        border-radius: 54px;
+        overflow: hidden;
+        border: 14px solid #161a29;
+        box-shadow: 0 40px 100px rgba(0, 0, 0, 0.9), 0 0 0 2px rgba(255, 255, 255, 0.18);
+        background: #000000;
+      }
+      .treatment-phone-mockup .scene-media {
+        width: 100%;
+        height: 100%;
+      }
+      .phone-notch {
+        position: absolute;
+        top: 16px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 140px;
+        height: 26px;
+        background: #000000;
+        border-radius: 999px;
+        z-index: 25;
+        box-shadow: 0 0 0 1.5px rgba(255, 255, 255, 0.12);
+      }
+
+      .treatment-thick-border {
+        top: 150px;
+        left: 60px;
+        right: 60px;
+        width: 960px;
+        height: 1360px;
+        border-radius: 36px;
+        overflow: hidden;
+        border: 6px solid var(--color-accent);
+        box-shadow: 0 0 50px rgba(245, 158, 11, 0.45), 0 30px 80px rgba(0, 0, 0, 0.8);
+      }
+      .treatment-thick-border .scene-media {
+        width: 100%;
+        height: 100%;
+      }
+
+      .treatment-polaroid {
+        top: 140px;
+        left: 70px;
+        width: 940px;
+        height: 1380px;
+        padding: 22px 22px 100px 22px;
+        background: #ffffff;
+        border-radius: 18px;
+        transform: rotate(1.5deg);
+        box-shadow: 0 40px 90px rgba(0, 0, 0, 0.8);
+        overflow: hidden;
+      }
+      .treatment-polaroid .scene-media {
+        width: 100%;
+        height: 100%;
+        border-radius: 10px;
+      }
+
+      /* --- GRADIENTS & BACKGROUND TREATMENTS --- */
       .gradient-overlay {
         position: absolute;
         inset: 0;
         background: linear-gradient(
           180deg,
-          rgba(0, 0, 0, 0.45) 0%,
-          rgba(0, 0, 0, 0.15) 30%,
-          rgba(0, 0, 0, 0.3) 55%,
-          rgba(10, 18, 14, 0.88) 80%,
-          rgba(10, 18, 14, 0.98) 100%
+          rgba(0, 0, 0, 0.5) 0%,
+          rgba(0, 0, 0, 0.18) 30%,
+          rgba(0, 0, 0, 0.35) 55%,
+          rgba(11, 16, 32, 0.9) 80%,
+          rgba(11, 16, 32, 0.98) 100%
         );
+        pointer-events: none;
+      }
+
+      .bg-fx-radial-glow {
+        position: absolute;
+        inset: 0;
+        background: radial-gradient(circle at 50% 45%, rgba(124, 58, 237, 0.45) 0%, transparent 68%);
+        mix-blend-mode: screen;
+        pointer-events: none;
+      }
+
+      .bg-fx-noise {
+        position: absolute;
+        inset: 0;
+        background-image: radial-gradient(rgba(255, 255, 255, 0.08) 1px, transparent 0);
+        background-size: 8px 8px;
+        opacity: 0.7;
+        pointer-events: none;
+      }
+
+      .bg-fx-gradient {
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(135deg, rgba(124, 58, 237, 0.35) 0%, transparent 50%, rgba(11, 16, 32, 0.9) 100%);
+        pointer-events: none;
+      }
+
+      .bg-fx-particles {
+        position: absolute;
+        inset: 0;
+        pointer-events: none;
+        overflow: hidden;
+      }
+
+      .particle-dot {
+        position: absolute;
+        width: 10px;
+        height: 10px;
+        border-radius: 50%;
+        background: var(--color-highlight);
+        box-shadow: 0 0 16px var(--color-highlight);
+        opacity: 0.75;
+      }
+
+      .overlay-sparkles {
+        position: absolute;
+        inset: 0;
+        pointer-events: none;
+        overflow: hidden;
+      }
+      .sparkle-icon {
+        position: absolute;
+        font-size: 38px;
+        filter: drop-shadow(0 0 14px var(--color-accent));
       }
 
       /* Brand Header Top */
@@ -125,10 +319,10 @@
         display: inline-flex;
         align-items: center;
         gap: 12px;
-        background: rgba(0, 0, 0, 0.5);
-        backdrop-filter: blur(12px);
-        border: 1px solid rgba(255, 255, 255, 0.15);
-        padding: 10px 22px;
+        background: rgba(0, 0, 0, 0.6);
+        backdrop-filter: blur(14px);
+        border: 1px solid rgba(255, 255, 255, 0.18);
+        padding: 10px 24px;
         border-radius: 999px;
         font-family: var(--font-headline);
         font-size: 28px;
@@ -144,7 +338,7 @@
         background: var(--color-accent);
       }
 
-      /* Content Overlay (Middle - Bottom) */
+      /* --- CONTENT OVERLAY BASE --- */
       .content-overlay {
         position: absolute;
         bottom: 240px;
@@ -156,6 +350,70 @@
         gap: 20px;
       }
 
+      /* --- DYNAMIC LAYOUTS --- */
+      .layout-center-hero .content-overlay {
+        top: 50%;
+        bottom: auto;
+        transform: translateY(-50%);
+        align-items: center;
+        text-align: center;
+      }
+      .layout-center-hero .scene-badge {
+        align-self: center;
+      }
+
+      .layout-split-screen .content-overlay {
+        bottom: 220px;
+        background: rgba(11, 16, 32, 0.94);
+        border: 1.5px solid rgba(255, 255, 255, 0.16);
+        border-radius: 30px;
+        padding: 34px;
+        box-shadow: 0 25px 70px rgba(0, 0, 0, 0.85);
+      }
+
+      .layout-diagonal .content-overlay {
+        bottom: 240px;
+        transform: rotate(-2deg);
+      }
+
+      .layout-floating-ui .content-overlay {
+        bottom: 270px;
+        background: rgba(15, 26, 36, 0.8);
+        backdrop-filter: blur(24px);
+        border: 1.5px solid rgba(255, 255, 255, 0.22);
+        border-radius: 30px;
+        padding: 30px;
+        box-shadow: 0 25px 70px rgba(0, 0, 0, 0.65);
+      }
+
+      .layout-foreground-background .content-overlay {
+        bottom: 230px;
+      }
+
+      .layout-stacked-cards .subtitle-card {
+        position: relative;
+        isolation: isolate;
+      }
+      .layout-stacked-cards .subtitle-card::after {
+        content: '';
+        position: absolute;
+        inset: -8px -8px -8px -8px;
+        border: 1.5px solid rgba(255, 255, 255, 0.15);
+        border-radius: 24px;
+        z-index: -1;
+        transform: rotate(-1.5deg);
+        background: rgba(15, 26, 36, 0.5);
+      }
+
+      .layout-full-bleed .content-overlay {
+        bottom: 240px;
+      }
+
+      .layout-bottom-caption .content-overlay {
+        bottom: 240px;
+      }
+
+      /* Badge */
       .scene-badge {
         align-self: flex-start;
         background: var(--color-primary);
@@ -170,6 +428,7 @@
         box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
       }
 
+      /* Headline */
       .scene-headline {
         font-family: var(--font-headline);
         font-size: 58px;
@@ -181,14 +440,58 @@
         text-shadow: 0 4px 16px rgba(0, 0, 0, 0.85);
       }
 
-      .scene-headline .highlight {
-        color: var(--color-highlight);
+      /* --- TEXT MOODS & DECORATIONS --- */
+      .font-mood-heavy-condensed .scene-headline {
+        letter-spacing: -1.8px;
+        font-weight: 900;
+      }
+      .font-mood-bold-geometric .scene-headline {
+        letter-spacing: 0px;
+        font-weight: 800;
       }
 
+      .decoration-thick-outline .scene-headline {
+        -webkit-text-stroke: 2px var(--color-bg-dark);
+        paint-order: stroke fill;
+        text-shadow: 0 6px 20px rgba(0, 0, 0, 0.95);
+      }
+      .decoration-hard-shadow .scene-headline {
+        text-shadow: 4px 4px 0px var(--color-primary), 8px 8px 16px rgba(0, 0, 0, 0.9);
+      }
+      .decoration-soft-glow .scene-headline {
+        text-shadow: 0 0 25px var(--color-accent), 0 0 50px var(--color-primary);
+      }
+
+      /* Highlight & Emphasis */
+      .scene-headline .highlight {
+        color: var(--color-highlight);
+        display: inline-block;
+      }
+      .emphasis-underline .highlight {
+        border-bottom: 4px solid var(--color-accent);
+        padding-bottom: 2px;
+      }
+      .emphasis-circle .highlight {
+        border: 2px solid var(--color-accent);
+        border-radius: 999px;
+        padding: 2px 16px;
+      }
+      .emphasis-invert .highlight {
+        background: var(--color-highlight);
+        color: #0B1020;
+        border-radius: 12px;
+        padding: 2px 14px;
+        text-shadow: none;
+      }
+      .emphasis-spotlight .highlight {
+        text-shadow: 0 0 25px var(--color-highlight), 0 0 50px var(--color-accent);
+      }
+
+      /* Subtitle Card */
       .subtitle-card {
         background: var(--color-card-bg);
-        border: 1px solid rgba(255, 255, 255, 0.12);
-        backdrop-filter: blur(16px);
+        border: 1px solid rgba(255, 255, 255, 0.14);
+        backdrop-filter: blur(18px);
         border-radius: 20px;
         padding: 22px 28px;
       }
@@ -208,9 +511,9 @@
         left: 48px;
         right: 48px;
         z-index: 50;
-        background: rgba(0, 0, 0, 0.65);
+        background: rgba(0, 0, 0, 0.7);
         backdrop-filter: blur(20px);
-        border: 1px solid rgba(255, 255, 255, 0.15);
+        border: 1px solid rgba(255, 255, 255, 0.16);
         border-radius: 24px;
         padding: 20px 28px;
         display: flex;
@@ -238,7 +541,7 @@
       .bottom-cta-sub {
         font-family: var(--font-body);
         font-size: 28px;
-        color: rgba(255, 255, 255, 0.7);
+        color: rgba(255, 255, 255, 0.72);
       }
 
       .bottom-cta-btn {
@@ -269,70 +572,22 @@
     <script id="default-scenes-data" type="application/json">
 {
   "project": {
-    "appName": "Ghusl: Fiqih Mandi Wajib",
-    "websiteUrl": "https://play.google.com/store/apps/details?id=com.niatmandiwajib.ghusl",
+    "appName": "Creative Island Hub",
+    "websiteUrl": "https://play.google.com/store/apps/details?id=com.henrisusanto.creativeislandhub",
     "ctaHeadline": "DOWNLOAD DI GOOGLE PLAY",
-    "ctaSubline": "Cari 'Ghusl: Fiqih Mandi Wajib Lengkap'",
+    "ctaSubline": "Cari Creative Island Hub di Google Play Store",
     "theme": {
-      "primaryColor": "#2D6A4F",
-      "accentColor": "#52B788",
-      "highlightColor": "#FFD166"
+      "primaryColor": "#7C3AED",
+      "accentColor": "#F59E0B",
+      "highlightColor": "#22D3EE",
+      "bgDark": "#0B1020"
     }
   },
-  "scenes": [
-    {
-      "id": "scene-1",
-      "type": "video",
-      "mediaSrc": "assets/intro_20261027150425.mp4",
-      "audioSrc": "assets/1.wav",
-      "durationInSeconds": 3.5,
-      "badge": "🚨 MASALAH UTAMA",
-      "headline": "BAGIAN YANG SERING TERLEWAT",
-      "highlightWords": ["SERING TERLEWAT"],
-      "subtitle": "Ada satu bagian mandi wajib yang sering terlewat dan menentukan sahnya.",
-      "animation": "slam"
-    },
-    {
-      "id": "scene-2",
-      "type": "image",
-      "mediaSrc": "assets/2_20261027150425.jpg",
-      "audioSrc": "assets/2.wav",
-      "durationInSeconds": 4.0,
-      "badge": "💡 BUKAN CUMA NIAT",
-      "headline": "RATA AIR KE SELURUH TUBUH",
-      "highlightWords": ["RATA AIR"],
-      "subtitle": "Bukan cuma niat—rata air ke seluruh tubuh juga menentukan sahnya.",
-      "animation": "pop"
-    },
-    {
-      "id": "scene-3",
-      "type": "image",
-      "mediaSrc": "assets/3_20261027150425.jpg",
-      "audioSrc": "assets/3.wav",
-      "durationInSeconds": 4.5,
-      "badge": "🕌 PANDUAN SUNNAH",
-      "headline": "PANDUAN LENGKAP SESUAI SUNNAH",
-      "highlightWords": ["LENGKAP", "SUNNAH"],
-      "subtitle": "Aplikasi Ghusl memandu dari niat sampai tata cara lengkap, sesuai sunnah.",
-      "animation": "pop"
-    },
-    {
-      "id": "scene-final",
-      "type": "video",
-      "mediaSrc": "assets/outro_20261027150425.mp4",
-      "audioSrc": "assets/7.wav",
-      "durationInSeconds": 4.0,
-      "badge": "⬇️ COBA SEKARANG",
-      "headline": "DOWNLOAD DI GOOGLE PLAY",
-      "highlightWords": ["DOWNLOAD", "GOOGLE PLAY"],
-      "subtitle": "Cari Ghusl di Google Play, dan mulai belajar dengan tenang.",
-      "animation": "slam"
-    }
-  ]
+  "scenes": []
 }
     </script>
 
-    <!-- Data Script -->
+    <!-- Runtime Data Script -->
     <script src="scenes.js"></script>
 
     <script>
@@ -367,9 +622,9 @@
           const r = parseInt(hex.substring(0, 2), 16) / 255;
           const g = parseInt(hex.substring(2, 4), 16) / 255;
           const b = parseInt(hex.substring(4, 6), 16) / 255;
-          // Perceived luminance (WCAG)
+          // Perceived luminance (WCAG AA)
           const lum = 0.2126 * r + 0.7152 * g + 0.0722 * b;
-          return lum > 0.45 ? '#0F1713' : '#ffffff';
+          return lum > 0.45 ? '#0B1020' : '#ffffff';
         }
 
         // Apply theme colors if defined
@@ -383,7 +638,9 @@
             document.documentElement.style.setProperty('--color-accent', t.accentColor);
             document.documentElement.style.setProperty('--color-btn-text', getAccessibleTextColor(t.accentColor));
           }
-          if (t.highlightColor) document.documentElement.style.setProperty('--color-highlight', t.highlightColor);
+          if (t.highlightColor) {
+            document.documentElement.style.setProperty('--color-highlight', t.highlightColor);
+          }
           if (t.bgDark) {
             document.documentElement.style.setProperty('--color-bg-dark', t.bgDark);
           }
@@ -405,7 +662,17 @@
           const start = currentStart;
           const duration = parseFloat(scene.durationInSeconds) || 4.0;
           const sceneId = `scene-${index + 1}`;
+          const isFirst = (index === 0);
           const isLast = (index === config.scenes.length - 1);
+
+          // Emphasis classes
+          let emphasisClass = '';
+          if (Array.isArray(scene.emphasisEffect)) {
+            if (scene.emphasisEffect.includes('underline')) emphasisClass += ' emphasis-underline';
+            if (scene.emphasisEffect.includes('circle') || scene.emphasisEffect.includes('scribble')) emphasisClass += ' emphasis-circle';
+            if (scene.emphasisEffect.includes('color-invert')) emphasisClass += ' emphasis-invert';
+            if (scene.emphasisEffect.includes('spotlight')) emphasisClass += ' emphasis-spotlight';
+          }
 
           // Highlight words in headline
           let formattedHeadline = scene.headline || '';
@@ -416,33 +683,90 @@
             });
           }
 
+          // Layout class
+          const layoutName = scene.layout || 'bottom-caption';
+          const layoutClass = `layout-${layoutName}`;
+
+          // Image treatment class
+          const treatmentName = scene.imageTreatment || 'full-bleed';
+          const treatmentClass = `treatment-${treatmentName}`;
+          const hasCardTreatment = (treatmentName !== 'full-bleed');
+          const isPhoneMockup = (treatmentName === 'phone-mockup');
+
+          // Text treatment classes
+          const fontMoodClass = `font-mood-${scene.textTreatment?.fontMood || 'bold-geometric'}`;
+          const decorationClass = `decoration-${scene.textTreatment?.decoration || 'clean-flat'}`;
+
+          // Background FX HTML
+          let bgFxHtml = '';
+          if (scene.backgroundTreatment === 'radial-glow') {
+            bgFxHtml += '<div class="bg-fx-radial-glow"></div>';
+          } else if (scene.backgroundTreatment === 'noise-texture') {
+            bgFxHtml += '<div class="bg-fx-noise"></div>';
+          } else if (scene.backgroundTreatment === 'gradient') {
+            bgFxHtml += '<div class="bg-fx-gradient"></div>';
+          } else if (scene.backgroundTreatment === 'floating-particles') {
+            bgFxHtml += `
+              <div class="bg-fx-particles" id="${sceneId}-particles">
+                <div class="particle-dot" style="top: 25%; left: 18%;"></div>
+                <div class="particle-dot" style="top: 40%; right: 20%; width: 14px; height: 14px;"></div>
+                <div class="particle-dot" style="top: 65%; left: 24%; width: 8px; height: 8px;"></div>
+                <div class="particle-dot" style="top: 75%; right: 28%; width: 12px; height: 12px;"></div>
+              </div>
+            `;
+          }
+
+          // Overlay Elements (e.g. sparkles/confetti)
+          let overlayFxHtml = '';
+          if (Array.isArray(scene.overlayElements) && (scene.overlayElements.includes('sparkles') || scene.overlayElements.includes('confetti'))) {
+            overlayFxHtml = `
+              <div class="overlay-sparkles" id="${sceneId}-sparkles">
+                <span class="sparkle-icon" style="top: 18%; left: 14%;">✨</span>
+                <span class="sparkle-icon" style="top: 28%; right: 16%; font-size: 46px;">🎉</span>
+                <span class="sparkle-icon" style="top: 62%; left: 18%; font-size: 34px;">⭐</span>
+                <span class="sparkle-icon" style="top: 72%; right: 22%; font-size: 42px;">✨</span>
+              </div>
+            `;
+          }
+
           // Build Scene HTML
           const clip = document.createElement('div');
           clip.id = sceneId;
-          clip.className = 'clip';
+          clip.className = `clip ${layoutClass}`;
           clip.setAttribute('data-start', start.toFixed(2));
           clip.setAttribute('data-duration', duration.toFixed(2));
           clip.setAttribute('data-track-index', '1');
 
           clip.innerHTML = `
-            <div class="scene-inner" id="${sceneId}-inner">
-              <div class="bg-wrapper" data-layout-allow-overflow="true">
-                ${scene.type === 'video'
-                  ? `<video id="${sceneId}-media" class="scene-media" src="${scene.mediaSrc}" ${scene.hasAudio ? 'data-has-audio="true"' : 'muted'}></video>`
-                  : `<img id="${sceneId}-media" class="scene-media" src="${scene.mediaSrc}" alt="Scene ${index + 1}" />`
-                }
+            <div class="scene-inner" id="${sceneId}-inner" data-layout-allow-overflow="true">
+              <div class="bg-wrapper" id="${sceneId}-bg-wrapper" data-layout-allow-overflow="true">
+                ${hasCardTreatment ? (scene.type === 'video' ? `<video class="bg-backdrop-blur" src="${scene.mediaSrc}" muted playsinline></video>` : `<img class="bg-backdrop-blur" src="${scene.mediaSrc}" alt="" />`) : ''}
+
+                <div class="media-container ${treatmentClass}" id="${sceneId}-media-container" data-layout-allow-overflow="true">
+                  ${isPhoneMockup ? '<div class="phone-notch"></div>' : ''}
+                  ${scene.type === 'video'
+                    ? `<video id="${sceneId}-media" class="scene-media" src="${scene.mediaSrc}" data-start="${start.toFixed(2)}" data-duration="${duration.toFixed(2)}" ${scene.hasAudio ? 'data-has-audio="true"' : 'muted'} playsinline></video>`
+                    : `<img id="${sceneId}-media" class="scene-media" src="${scene.mediaSrc}" alt="Scene ${index + 1}" />`
+                  }
+                </div>
+
                 <div class="gradient-overlay"></div>
+                ${bgFxHtml}
+                ${overlayFxHtml}
               </div>
+
               <div class="brand-header">
                 <div class="brand-badge"><span class="brand-dot"></span> ${appName}</div>
               </div>
-              <div class="content-overlay">
+
+              <div class="content-overlay ${fontMoodClass} ${decorationClass} ${emphasisClass}" id="${sceneId}-overlay" data-layout-allow-overflow="true">
                 <div id="${sceneId}-badge" class="scene-badge">${scene.badge || 'INFO'}</div>
                 <h1 id="${sceneId}-headline" class="scene-headline">${formattedHeadline}</h1>
                 <div id="${sceneId}-sub" class="subtitle-card">
                   <p class="subtitle-text">${scene.subtitle || ''}</p>
                 </div>
               </div>
+
               <div class="bottom-cta-bar">
                 <div class="bottom-cta-left">
                   <span class="bottom-cta-icon">📲</span>
@@ -468,41 +792,197 @@
             audioWrapper.appendChild(audioEl);
           }
 
-          // GSAP Animations
+          // Target selectors for animations
           const innerSel = `#${sceneId}-inner`;
-          const mediaSel = `#${sceneId}-media`;
+          const mediaTarget = hasCardTreatment ? `#${sceneId}-media-container` : `#${sceneId}-media`;
           const badgeSel = `#${sceneId}-badge`;
           const headSel = `#${sceneId}-headline`;
           const subSel = `#${sceneId}-sub`;
 
-          // 1. Scene fade in (Scene 1 is visible on frame 0 for clean social thumbnails)
-          if (index === 0) {
+          // ==========================================
+          // 1. TRANSITION IN (deterministic GSAP)
+          // ==========================================
+          const transIn = scene.transitionIn || 'cut';
+          if (isFirst) {
             tl.set(innerSel, { opacity: 1 }, 0);
           } else {
-            tl.fromTo(innerSel, { opacity: 0 }, { opacity: 1, duration: 0.3, ease: 'power2.out' }, start);
+            switch (transIn) {
+              case 'cut':
+                tl.set(innerSel, { opacity: 1 }, start);
+                break;
+              case 'blur-crossfade':
+                tl.fromTo(innerSel, { opacity: 0, filter: 'blur(24px)' }, { opacity: 1, filter: 'blur(0px)', duration: 0.45, ease: 'power2.out' }, start);
+                break;
+              case 'push-up':
+                tl.fromTo(innerSel, { y: 600, opacity: 0 }, { y: 0, opacity: 1, duration: 0.45, ease: 'power3.out' }, start);
+                break;
+              case 'zoom-through':
+                tl.fromTo(innerSel, { scale: 1.35, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.5, ease: 'power3.out' }, start);
+                break;
+              case 'elastic-push':
+                tl.fromTo(innerSel, { y: 400, opacity: 0 }, { y: 0, opacity: 1, duration: 0.55, ease: 'back.out(1.5)' }, start);
+                break;
+              case 'circle-iris':
+                tl.fromTo(innerSel, { clipPath: 'circle(0% at 50% 50%)', opacity: 1 }, { clipPath: 'circle(120% at 50% 50%)', opacity: 1, duration: 0.5, ease: 'power3.inOut' }, start);
+                break;
+              case 'whip-pan':
+                tl.fromTo(innerSel, { x: -700, opacity: 0 }, { x: 0, opacity: 1, duration: 0.4, ease: 'power4.out' }, start);
+                break;
+              case 'light-leak':
+                tl.fromTo(innerSel, { filter: 'brightness(2.4)', opacity: 0 }, { filter: 'brightness(1)', opacity: 1, duration: 0.45, ease: 'power2.out' }, start);
+                break;
+              case 'crossfade':
+              default:
+                tl.fromTo(innerSel, { opacity: 0 }, { opacity: 1, duration: 0.35, ease: 'power2.out' }, start);
+                break;
+            }
           }
 
-          // 2. Ken Burns slow push-in for images
-          if (scene.type === 'image') {
-            tl.fromTo(mediaSel, { scale: 1.0, y: 0 }, { scale: 1.08, y: -20, duration: duration, ease: 'none' }, start);
+          // ==========================================
+          // 2. MEDIA MOTION (deterministic GSAP)
+          // ==========================================
+          const motion = scene.mediaMotion || 'slow-zoom-in';
+          switch (motion) {
+            case 'shake-on-impact':
+              tl.fromTo(mediaTarget, { x: -16, y: 12, scale: 1.05 }, { x: 0, y: 0, scale: 1.0, duration: 0.35, ease: 'power4.out' }, start);
+              tl.to(mediaTarget, { scale: 1.08, duration: duration - 0.35, ease: 'none' }, start + 0.35);
+              break;
+            case 'pan-right':
+              tl.fromTo(mediaTarget, { x: -45, scale: 1.08 }, { x: 45, scale: 1.08, duration: duration, ease: 'none' }, start);
+              break;
+            case 'pan-left':
+              tl.fromTo(mediaTarget, { x: 45, scale: 1.08 }, { x: -45, scale: 1.08, duration: duration, ease: 'none' }, start);
+              break;
+            case 'handheld-drift':
+              tl.fromTo(mediaTarget, { x: -14, y: -10, scale: 1.06, rotate: -0.6 }, { x: 14, y: 10, scale: 1.06, rotate: 0.6, duration: duration, ease: 'sine.inOut' }, start);
+              break;
+            case 'slow-zoom-in':
+              tl.fromTo(mediaTarget, { scale: 1.0, y: 0 }, { scale: 1.12, y: -25, duration: duration, ease: 'none' }, start);
+              break;
+            case 'zoom-out':
+              tl.fromTo(mediaTarget, { scale: 1.14, y: -20 }, { scale: 1.0, y: 0, duration: duration, ease: 'none' }, start);
+              break;
+            case 'parallax':
+              tl.fromTo(mediaTarget, { scale: 1.08, y: 25 }, { scale: 1.08, y: -25, duration: duration, ease: 'none' }, start);
+              break;
+            case '3d-tilt':
+              tl.fromTo(mediaTarget, { scale: 1.06, transformPerspective: 900, rotateX: 4, rotateY: -4 }, { scale: 1.06, transformPerspective: 900, rotateX: -3, rotateY: 3, duration: duration, ease: 'sine.inOut' }, start);
+              break;
+            case 'subtle-float':
+              tl.fromTo(mediaTarget, { scale: 1.05, y: 16 }, { scale: 1.05, y: -16, duration: duration, ease: 'sine.inOut' }, start);
+              break;
+            case 'none':
+            default:
+              if (scene.type === 'image') {
+                tl.fromTo(mediaTarget, { scale: 1.0, y: 0 }, { scale: 1.08, y: -20, duration: duration, ease: 'none' }, start);
+              }
+              break;
           }
 
-          // 3. Badge entrance
+          // ==========================================
+          // 3. BADGE ENTRANCE
+          // ==========================================
           tl.fromTo(badgeSel, { scale: 0, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.35, ease: 'back.out(2)' }, start + 0.15);
 
-          // 4. Headline Kinetic Slam entrance
-          if (scene.animation === 'slam') {
-            tl.fromTo(headSel, { scale: 1.35, opacity: 0, y: 30 }, { scale: 1, opacity: 1, y: 0, duration: 0.4, ease: 'power4.out' }, start + 0.3);
-          } else {
-            tl.fromTo(headSel, { scale: 0.8, opacity: 0, y: 20 }, { scale: 1, opacity: 1, y: 0, duration: 0.4, ease: 'back.out(1.7)' }, start + 0.3);
+          // ==========================================
+          // 4. HEADLINE ANIMATION (15 styles supported)
+          // ==========================================
+          const anim = scene.animation || 'pop';
+          switch (anim) {
+            case 'slam':
+              tl.fromTo(headSel, { scale: 1.35, opacity: 0, y: 35 }, { scale: 1, opacity: 1, y: 0, duration: 0.4, ease: 'power4.out' }, start + 0.28);
+              break;
+            case 'pop':
+              tl.fromTo(headSel, { scale: 0.75, opacity: 0, y: 20 }, { scale: 1, opacity: 1, y: 0, duration: 0.4, ease: 'back.out(2)' }, start + 0.28);
+              break;
+            case 'shake':
+              tl.fromTo(headSel, { scale: 0.9, opacity: 0, y: 20 }, { scale: 1, opacity: 1, y: 0, duration: 0.3, ease: 'power2.out' }, start + 0.25);
+              tl.fromTo(headSel, { x: -16 }, { x: 0, duration: 0.35, ease: 'elastic.out(1.2, 0.3)' }, start + 0.28);
+              break;
+            case 'zoom':
+              tl.fromTo(headSel, { scale: 0.25, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.42, ease: 'power3.out' }, start + 0.28);
+              break;
+            case 'slide':
+              tl.fromTo(headSel, { x: -140, opacity: 0 }, { x: 0, opacity: 1, duration: 0.42, ease: 'power3.out' }, start + 0.28);
+              break;
+            case 'spring':
+              tl.fromTo(headSel, { y: 85, scaleY: 1.3, opacity: 0 }, { y: 0, scaleY: 1, opacity: 1, duration: 0.55, ease: 'elastic.out(1, 0.4)' }, start + 0.28);
+              break;
+            case 'bounce':
+              tl.fromTo(headSel, { y: -110, opacity: 0 }, { y: 0, opacity: 1, duration: 0.55, ease: 'bounce.out' }, start + 0.28);
+              break;
+            case 'fade':
+              tl.fromTo(headSel, { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.4, ease: 'power2.out' }, start + 0.28);
+              break;
+            case 'blur reveal':
+              tl.fromTo(headSel, { filter: 'blur(20px)', opacity: 0 }, { filter: 'blur(0px)', opacity: 1, duration: 0.45, ease: 'power2.out' }, start + 0.28);
+              break;
+            case 'elastic':
+              tl.fromTo(headSel, { scaleX: 1.4, scaleY: 0.8, opacity: 0 }, { scaleX: 1, scaleY: 1, opacity: 1, duration: 0.55, ease: 'elastic.out(1.2, 0.4)' }, start + 0.28);
+              break;
+            default:
+              tl.fromTo(headSel, { scale: 0.8, opacity: 0, y: 20 }, { scale: 1, opacity: 1, y: 0, duration: 0.4, ease: 'back.out(1.7)' }, start + 0.28);
+              break;
           }
 
-          // 5. Subtitle Card float up
-          tl.fromTo(subSel, { y: 40, opacity: 0 }, { y: 0, opacity: 1, duration: 0.38, ease: 'power3.out' }, start + 0.5);
+          // ==========================================
+          // 5. EMPHASIS PULSE TWEEN
+          // ==========================================
+          if (Array.isArray(scene.emphasisEffect) && (scene.emphasisEffect.includes('burst') || scene.emphasisEffect.includes('scale-emphasis'))) {
+            tl.fromTo(`${headSel} .highlight`, { scale: 1 }, { scale: 1.15, duration: 0.28, yoyo: true, repeat: 1, ease: 'power2.out' }, start + 0.65);
+          }
 
-          // 6. Scene exit fade (except the very last scene)
+          // ==========================================
+          // 6. SUBTITLE CARD ENTRANCE
+          // ==========================================
+          tl.fromTo(subSel, { y: 40, opacity: 0 }, { y: 0, opacity: 1, duration: 0.38, ease: 'power3.out' }, start + 0.48);
+
+          // ==========================================
+          // 7. PARTICLES / SPARKLES OVERLAYS TWEEN
+          // ==========================================
+          if (scene.backgroundTreatment === 'floating-particles') {
+            tl.fromTo(`#${sceneId}-particles`, { y: 35 }, { y: -35, duration: duration, ease: 'none' }, start);
+          }
+          if (overlayFxHtml) {
+            tl.fromTo(`#${sceneId}-sparkles`, { opacity: 0, scale: 0.8 }, { opacity: 1, scale: 1.05, duration: duration, ease: 'sine.inOut' }, start + 0.2);
+          }
+
+          // ==========================================
+          // 8. TRANSITION OUT (deterministic GSAP)
+          // ==========================================
           if (!isLast) {
-            tl.to(innerSel, { opacity: 0.2, duration: 0.2, ease: 'power1.in' }, start + duration - 0.2);
+            const transOut = scene.transitionOut || 'crossfade';
+            const end = start + duration;
+            switch (transOut) {
+              case 'blur-crossfade':
+                tl.to(innerSel, { opacity: 0.2, filter: 'blur(16px)', duration: 0.28, ease: 'power2.in' }, end - 0.28);
+                break;
+              case 'push-up':
+                tl.to(innerSel, { y: -300, opacity: 0.2, duration: 0.28, ease: 'power2.in' }, end - 0.28);
+                break;
+              case 'zoom-through':
+                tl.to(innerSel, { scale: 1.25, opacity: 0.2, duration: 0.28, ease: 'power2.in' }, end - 0.28);
+                break;
+              case 'elastic-push':
+                tl.to(innerSel, { y: -280, opacity: 0.2, duration: 0.28, ease: 'power2.in' }, end - 0.28);
+                break;
+              case 'circle-iris':
+                tl.to(innerSel, { clipPath: 'circle(0% at 50% 50%)', duration: 0.28, ease: 'power3.in' }, end - 0.28);
+                break;
+              case 'whip-pan':
+                tl.to(innerSel, { x: 700, opacity: 0.2, duration: 0.28, ease: 'power3.in' }, end - 0.28);
+                break;
+              case 'light-leak':
+                tl.to(innerSel, { filter: 'brightness(2.2)', opacity: 0.2, duration: 0.28, ease: 'power2.in' }, end - 0.28);
+                break;
+              case 'cut':
+                // Cut is handled by next scene taking over instantly
+                break;
+              case 'crossfade':
+              default:
+                tl.to(innerSel, { opacity: 0.2, duration: 0.22, ease: 'power1.in' }, end - 0.22);
+                break;
+            }
           }
 
           currentStart += duration;

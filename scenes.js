@@ -1,14 +1,14 @@
 window.SCENES_DATA = {
   "project": {
-    "appName": "Creative Island Hub",
-    "websiteUrl": "https://play.google.com/store/apps/details?id=com.henrisusanto.creativeislandhub",
+    "appName": "Ghusl: Niat Mandi Wajib",
+    "websiteUrl": "https://play.google.com/store/apps/details?id=com.niatmandiwajib.ghusl",
     "ctaHeadline": "DOWNLOAD DI GOOGLE PLAY",
-    "ctaSubline": "Cari Creative Island Hub di Google Play Store",
+    "ctaSubline": "Cari Ghusl: Niat Mandi Wajib di Play Store",
     "theme": {
-      "primaryColor": "#0A0E27",
-      "accentColor": "#00E5FF",
-      "highlightColor": "#FF6B35",
-      "bgDark": "#1A1F3A"
+      "primaryColor": "#1F6F5C",
+      "accentColor": "#A8D5BA",
+      "highlightColor": "#F4E1B0",
+      "bgDark": "#0F1F1A"
     },
     "audio": {
       "bgmSrc": "",
@@ -20,97 +20,80 @@ window.SCENES_DATA = {
     {
       "id": "scene-1",
       "type": "video",
-      "mediaSrc": "assets/intro_04077952.mp4",
+      "mediaSrc": "assets/intro_fead575f.mp4",
       "audioSrc": "assets/1.wav",
-      "durationInSeconds": 8.1,
-      "badge": "HOOK",
-      "headline": "HAMPIR UNINSTALL",
+      "durationInSeconds": 4.8,
+      "badge": "WASPADA",
+      "headline": "BISA BIKIN NGGAK SAH",
       "highlightWords": [
-        "UNINSTALL"
+        "NGGAK SAH"
       ],
-      "subtitle": "Aku hampir uninstall Fortnite karena bosan.",
+      "subtitle": "Kesalahan saat mandi wajib bisa bikin ibadah nggak sah.",
       "animation": "slam",
-      "audioDuration": 7.72
+      "audioDuration": 4.4
     },
     {
       "id": "scene-2",
       "type": "image",
-      "mediaSrc": "assets/2_c6a13590.jpg",
+      "mediaSrc": "assets/2_e372ec7b.jpg",
       "audioSrc": "assets/2.wav",
-      "durationInSeconds": 8.2,
-      "badge": "MASALAH",
-      "headline": "BUKAN BOSAN, SALAH MAP",
+      "durationInSeconds": 2.8,
+      "badge": "PENASARAN",
+      "headline": "NOMOR DUA PALING SERING",
       "highlightWords": [
-        "SALAH MAP"
+        "NOMOR DUA"
       ],
-      "subtitle": "Ternyata cuma belum nemu map yang seru. Scroll cari kode, ujungnya main map itu lagi.",
+      "subtitle": "Yang nomor dua paling sering.",
       "animation": "pop",
-      "audioDuration": 7.88
+      "audioDuration": 2.44
     },
     {
       "id": "scene-3",
       "type": "image",
-      "mediaSrc": "assets/scene-3.jpg",
+      "mediaSrc": "assets/3_1774a260.jpg",
       "audioSrc": "assets/3.wav",
       "durationInSeconds": 5.9,
-      "badge": "SOLUSI",
-      "headline": "GALERI PULAU KREATIF",
+      "badge": "FAKTA",
+      "headline": "NIAT & RATAKAN AIR",
       "highlightWords": [
-        "GALERI",
-        "PULAU KREATIF"
+        "NIAT",
+        "RATAKAN AIR"
       ],
-      "subtitle": "Sekarang aku buka Creative Island Hub. Galeri pulau kreatif langsung muncul.",
+      "subtitle": "Pertama: lupa niat. Kedua: air nggak merata ke seluruh badan.",
       "animation": "fade",
       "audioDuration": 5.6
     },
     {
       "id": "scene-4",
       "type": "image",
-      "mediaSrc": "assets/scene-4.jpg",
+      "mediaSrc": "assets/4_95b645bc.jpg",
       "audioSrc": "assets/4.wav",
-      "durationInSeconds": 7.8,
-      "badge": "FITUR",
-      "headline": "SATU IKLAN, KODE PERMANEN",
+      "durationInSeconds": 8.4,
+      "badge": "SOLUSI",
+      "headline": "CEK KONDISI & 13 BAB",
       "highlightWords": [
-        "SATU IKLAN",
-        "PERMANEN"
+        "CEK KONDISI",
+        "13 BAB"
       ],
-      "subtitle": "Kode terkunci? Buka dengan satu iklan sukarela. Selesai iklan, kode terbuka permanen.",
+      "subtitle": "Aplikasi Ghusl punya Cek Kondisi, plus 13 bab panduan lengkap dengan audio dan dalil.",
       "animation": "pop",
-      "audioDuration": 7.4
-    },
-    {
-      "id": "scene-5",
-      "type": "image",
-      "mediaSrc": "assets/scene-5.jpg",
-      "audioSrc": "assets/5.wav",
-      "durationInSeconds": 4.4,
-      "badge": "PAYOFF",
-      "headline": "COPY, SHARE, MAIN!",
-      "highlightWords": [
-        "COPY",
-        "SHARE",
-        "MAIN"
-      ],
-      "subtitle": "Tinggal copy, share ke teman, dan langsung main.",
-      "animation": "fade",
-      "audioDuration": 4.04
+      "audioDuration": 8
     },
     {
       "id": "scene-final",
       "type": "video",
-      "mediaSrc": "assets/outro.mp4",
-      "audioSrc": "assets/6.wav",
-      "durationInSeconds": 5.3,
-      "badge": "CTA",
+      "mediaSrc": "assets/outro_2ad2b883.mp4",
+      "audioSrc": "assets/5.wav",
+      "durationInSeconds": 5.7,
+      "badge": "GRATIS",
       "headline": "DOWNLOAD DI GOOGLE PLAY",
       "highlightWords": [
         "DOWNLOAD",
         "GOOGLE PLAY"
       ],
-      "subtitle": "Cari Creative Island Hub di Google Play. Temukan map barumu hari ini.",
+      "subtitle": "Jadi lebih tenang karena tahu langkahnya. Download Ghusl di Google Play.",
       "animation": "slam",
-      "audioDuration": 4.92
+      "audioDuration": 5.36
     }
   ]
 };
