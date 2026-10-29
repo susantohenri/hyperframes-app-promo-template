@@ -3,7 +3,8 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "sync": "node -e \"const fs=require('fs'); if(fs.existsSync('scenes.json')) fs.writeFileSync('scenes.js', 'window.SCENES_DATA = ' + fs.readFileSync('scenes.json', 'utf8') + ';');\"",
+    "sync": "node sync.js",
+    "sync:import": "node sync.js --import",
     "predev": "npm run sync",
     "dev": "npx --yes hyperframes@0.8.208 preview",
     "check": "npm run sync && npx --yes hyperframes@0.8.208 check",

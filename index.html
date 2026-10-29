@@ -17,6 +17,8 @@
         --color-highlight: #FFD166;
         --color-bg-dark: #0F1713;
         --color-card-bg: rgba(15, 26, 21, 0.85);
+        --color-badge-text: #ffffff;
+        --color-btn-text: #000000;
         --font-headline: 'Montserrat', sans-serif;
         --font-body: 'Inter', sans-serif;
       }
@@ -158,7 +160,7 @@
         align-self: flex-start;
         background: var(--color-primary);
         border: 1.5px solid var(--color-accent);
-        color: #ffffff;
+        color: var(--color-badge-text, #ffffff);
         font-family: var(--font-headline);
         font-size: 28px;
         font-weight: 800;
@@ -241,7 +243,7 @@
 
       .bottom-cta-btn {
         background: var(--color-accent);
-        color: #000000;
+        color: var(--color-btn-text, #000000);
         font-family: var(--font-headline);
         font-size: 28px;
         font-weight: 800;
@@ -252,15 +254,15 @@
     </style>
   </head>
   <body>
-    <div id="root" data-composition-id="main" data-width="1080" data-height="1920">
+    <div data-hf-id="hf-z2vm" id="root" data-composition-id="main" data-width="1080" data-height="1920">
       <!-- Progress Bar -->
-      <div id="progress-wrap"><div id="progress-bar"></div></div>
+      <div data-hf-id="hf-azml" id="progress-wrap"><div data-hf-id="hf-09bk" id="progress-bar"></div></div>
 
       <!-- Container Scenes (generated dynamically) -->
-      <div id="scenes-wrapper"></div>
+      <div data-hf-id="hf-zgq4" id="scenes-wrapper"></div>
 
       <!-- Audio Container -->
-      <div id="audio-wrapper"></div>
+      <div data-hf-id="hf-wffr" id="audio-wrapper"></div>
     </div>
 
     <!-- Default / Fallback configuration data -->
@@ -356,13 +358,35 @@
           return;
         }
 
+        function getAccessibleTextColor(hexColor) {
+          if (!hexColor || typeof hexColor !== 'string') return '#ffffff';
+          let hex = hexColor.trim();
+          if (hex.startsWith('#')) hex = hex.slice(1);
+          if (hex.length === 3) hex = hex.split('').map(c => c + c).join('');
+          if (hex.length !== 6) return '#ffffff';
+          const r = parseInt(hex.substring(0, 2), 16) / 255;
+          const g = parseInt(hex.substring(2, 4), 16) / 255;
+          const b = parseInt(hex.substring(4, 6), 16) / 255;
+          // Perceived luminance (WCAG)
+          const lum = 0.2126 * r + 0.7152 * g + 0.0722 * b;
+          return lum > 0.45 ? '#0F1713' : '#ffffff';
+        }
+
         // Apply theme colors if defined
         if (config.project && config.project.theme) {
           const t = config.project.theme;
-          if (t.primaryColor) document.documentElement.style.setProperty('--color-primary', t.primaryColor);
-          if (t.accentColor) document.documentElement.style.setProperty('--color-accent', t.accentColor);
+          if (t.primaryColor) {
+            document.documentElement.style.setProperty('--color-primary', t.primaryColor);
+            document.documentElement.style.setProperty('--color-badge-text', getAccessibleTextColor(t.primaryColor));
+          }
+          if (t.accentColor) {
+            document.documentElement.style.setProperty('--color-accent', t.accentColor);
+            document.documentElement.style.setProperty('--color-btn-text', getAccessibleTextColor(t.accentColor));
+          }
           if (t.highlightColor) document.documentElement.style.setProperty('--color-highlight', t.highlightColor);
-          if (t.bgDark) document.documentElement.style.setProperty('--color-bg-dark', t.bgDark);
+          if (t.bgDark) {
+            document.documentElement.style.setProperty('--color-bg-dark', t.bgDark);
+          }
         }
 
         const scenesWrapper = document.getElementById('scenes-wrapper');
@@ -402,7 +426,7 @@
 
           clip.innerHTML = `
             <div class="scene-inner" id="${sceneId}-inner">
-              <div class="bg-wrapper">
+              <div class="bg-wrapper" data-layout-allow-overflow="true">
                 ${scene.type === 'video'
                   ? `<video id="${sceneId}-media" class="scene-media" src="${scene.mediaSrc}" ${scene.hasAudio ? 'data-has-audio="true"' : 'muted'}></video>`
                   : `<img id="${sceneId}-media" class="scene-media" src="${scene.mediaSrc}" alt="Scene ${index + 1}" />`
@@ -439,7 +463,8 @@
             const audioEl = document.createElement('audio');
             audioEl.src = scene.audioSrc;
             audioEl.setAttribute('data-start', start.toFixed(2));
-            audioEl.setAttribute('data-duration', duration.toFixed(2));
+            const exactAudioDur = parseFloat(scene.audioDuration) || duration;
+            audioEl.setAttribute('data-duration', exactAudioDur.toFixed(2));
             audioWrapper.appendChild(audioEl);
           }
 
@@ -450,8 +475,12 @@
           const headSel = `#${sceneId}-headline`;
           const subSel = `#${sceneId}-sub`;
 
-          // 1. Scene fade in
-          tl.fromTo(innerSel, { opacity: 0 }, { opacity: 1, duration: 0.3, ease: 'power2.out' }, start);
+          // 1. Scene fade in (Scene 1 is visible on frame 0 for clean social thumbnails)
+          if (index === 0) {
+            tl.set(innerSel, { opacity: 1 }, 0);
+          } else {
+            tl.fromTo(innerSel, { opacity: 0 }, { opacity: 1, duration: 0.3, ease: 'power2.out' }, start);
+          }
 
           // 2. Ken Burns slow push-in for images
           if (scene.type === 'image') {

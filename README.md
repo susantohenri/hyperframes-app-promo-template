@@ -55,14 +55,22 @@ Buat aset-aset tersebut menggunakan tool AI masing-masing, lalu simpan ke folder
     * `assets/1.wav`
     * `assets/2.wav`
     * `assets/3.wav`, dst.
-* **Gambar (Imagen / Midjourney):**
+* **Gambar (Google Flow / Imagen / Midjourney):**
   * Generate gambar 9:16 untuk setiap scene -> Simpan sebagai:
-    * `assets/scene-2.jpg`
-    * `assets/scene-3.jpg`, dst.
-* **Video Hook & Outro (Google Veo / Runway):**
-  * Generate klip 3 detik vertikal -> Simpan sebagai:
-    * `assets/scene-1.mp4` (Hook pembuka)
-    * `assets/outro.mp4` (Outro CTA)
+    * `assets/1.jpg` (atau `1_[suffix].jpg`, misal `1_c6a13590.jpg`)
+    * `assets/2.jpg` (atau `2_[suffix].jpg`, misal `2_c6a13590.jpg`)
+    * `assets/3.jpg`, dst.
+* **Video Hook & Outro (Google Flow / Google Veo / Runway):**
+  * Simpan sebagai:
+    * `assets/intro.mp4` (atau `intro_[suffix].mp4`, misal `intro_04077952.mp4`)
+    * `assets/outro.mp4` (atau `outro_[suffix].mp4`)
+
+> 💡 **Fitur Auto-Suffix & Auto-Import Google Flow:**
+> - File hasil download dari Google Flow yang memiliki suffix acak (seperti `intro_04077952.mp4` dan `2_c6a13590.jpg`) **TIDAK PERLU DI-RENAME!** Script `sync.js` akan otomatis mencocokkan file tersebut ke timeline.
+> - Anda juga bisa langsung mengimpor file aset yang baru diunduh dari folder `Downloads` dengan satu perintah:
+>   ```bash
+>   npm run sync:import
+>   ```
 
 ---
 
