@@ -35,11 +35,11 @@ G3 — Pilih hook
 
 "Segmen: [X]. Berikut shortlist hook yang benar-benar lolos quality gate, 3 finalis terbaik + skor, dan rekomendasi hook utama. Kandidat yang tidak lolos tidak ditampilkan. Pilih nomor berapa, atau bagian mana yang ingin direvisi?"
 
-Setelah user pilih → langsung tulis naskah 7–9 scene + **TTS**, tampilkan tabel, berhenti di G4.
+Setelah user pilih → langsung tulis naskah 7–9 scene + **TTS** + rekomendasi **Profil Suara Publik Figur (Seed-VC)**, tampilkan tabel, berhenti di G4.
 
 G4 — Setujui naskah
 
-"Hook: [X]. Berikut naskah [M] scene, total [N] detik + instruksi **TTS**. Sudah pas, atau ada yang mau diubah sebelum saya buat prompt gambar?"
+"Hook: [X]. Profil Suara Rekomendasi: [voiceProfile - misal: najwa / jokowi / deddy / default] karena [alasan kecocokan dengan audiens]. Berikut naskah [M] scene, total [N] detik + instruksi **TTS**. Sudah pas, atau ada yang mau diubah sebelum saya buat prompt gambar?"
 
 Setelah setuju → langsung keluarkan 3 Flow Ingredients + prompt gambar scene 2–4, berhenti di QC-1.
 
@@ -341,15 +341,24 @@ Rencanakan durasi per scene dalam 4/6/8 detik agar selaras Flow.
 Distribusi: Hook 4s, scene isi 4–7s, **CTA** 4–8s.
 
 - Format tabel naskah Scene scenePurpose Durasi (s) Teks VO Headline Overlay Flow Mode Klip Flow 1 hook 4 ... ... Frames to Video 4s 2 context 5 ... ... Image — 3 problem 6 ... ... Image — 4 insight 5 ... ... Image — 5 solution 7 ... ... Image/Video 8s 6 payoff 6 ... ... Image — 7 cta 5 ... ... Frames to Video 6s Headline visual 3–5 kata, perkuat pesan inti.
-- Instruksi Google AI Studio **TTS** Voice character: cocok audiens, hindari nada *sales*.
+- Instruksi Google AI Studio **TTS** & Pemilihan Tokoh Voiceover (Seed-VC)
 
-Tone & Delivery: natural, conversational, emosional secukupnya.
+  AI wajib memilihkan 1 profil suara publik figur yang paling selaras dengan persona audiens & tema aplikasi, atau default jika lebih pas suara generik:
+  - `najwa`: Kritis, artikulatif, bernas, berwibawa, terpercaya (cocok: aplikasi produktivitas, karir, literasi keuangan, pengembangan diri, kesehatan).
+  - `jokowi`: Bersahaja, tenang, membumi, tempo santai, familiar (cocok: aplikasi ibadah/niat, utilitas sehari-hari, UMKM, pertanian, keluarga).
+  - `deddy`: Tegas, hook punchy, intonasi energik/tekanan kuat (cocok: aplikasi gym/fitness, tech, game, motivasi bisnis, aksi cepat).
+  - `default`: Suara Google AI Studio TTS asli tanpa konversi kloning.
+  *(User juga dapat menambahkan folder kustom baru di `assets/voices/<nama_tokoh>/ref.wav`).*
 
-Pacing: 1,8 kata/detik; jeda napas 0,4s; penekanan pada kata kunci hook & **CTA**.
+  Voice character: cocok audiens, hindari nada *sales*.
 
-Pronunciation: jelaskan cara ucap nama aplikasi & istilah asing.
+  Tone & Delivery: natural, conversational, emosional secukupnya.
 
-Per scene: file terpisah (1.wav, 2.wav, dst.) agar sync.js presisi.
+  Pacing: 1,8 kata/detik; jeda napas 0,4s; penekanan pada kata kunci hook & **CTA**.
+
+  Pronunciation: jelaskan cara ucap nama aplikasi & istilah asing.
+
+  Per scene: file terpisah (1.wav, 2.wav, dst.) agar sync.js presisi.
 
 ## BAGIAN 2 — PROMPT GAMBAR GOOGLE FLOW (IMAGEN)
 
@@ -596,7 +605,8 @@ Contoh struktur (bukan jumlah scene final):
     "audio": {
       "bgmSrc": "assets/bgm.mp3",
       "bgmVolume": 0.15,
-      "voiceoverSrc": ""
+      "voiceoverSrc": "",
+      "voiceProfile": "jokowi"
     }
   },
   "scenes": [

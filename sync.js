@@ -35,9 +35,12 @@ function processGoogleAiStudioTTS(searchDir, destDir) {
   recentTTS.forEach((item, index) => {
     const sceneNum = index + 1;
     const destName = `${sceneNum}.wav`;
+    const rawDestName = `raw_${sceneNum}.wav`;
     const destPath = path.join(destDir, destName);
+    const rawDestPath = path.join(destDir, rawDestName);
     const timeStr = new Date(item.createdTime).toLocaleTimeString();
     
+    fs.copyFileSync(item.fullPath, rawDestPath);
     fs.copyFileSync(item.fullPath, destPath);
     console.log(`  🎵 Scene ${sceneNum} -> assets/${destName} (Diunduh: ${timeStr} | File: "${item.name}")`);
   });
@@ -98,6 +101,119 @@ try {
   console.error('[sync] Error parsing scenes.json:', e);
   process.exit(1);
 }
+
+// -------------------------------------------------------------
+// Voice Conversion (Seed-VC) Integration with Graceful Fallback
+// -------------------------------------------------------------
+function findPythonExecutable() {
+  const isWindows = process.platform === 'win32';
+  
+  // 1. Check local tools/seed-vc/.venv
+  const localVenv = isWindows 
+    ? path.join(__dirname, 'tools', 'seed-vc', '.venv', 'Scripts', 'python.exe')
+    : path.join(__dirname, 'tools', 'seed-vc', '.venv', 'bin', 'python');
+  if (fs.existsSync(localVenv)) return localVenv;
+
+  // 2. On Windows, check miniconda / anaconda seedvc env
+  if (isWindows) {
+    const userProfile = process.env.USERPROFILE || '';
+    const condaPaths = [
+      path.join(userProfile, 'miniconda3', 'envs', 'seedvc', 'python.exe'),
+      path.join(userProfile, 'anaconda3', 'envs', 'seedvc', 'python.exe')
+    ];
+    for (const cp of condaPaths) {
+      if (fs.existsSync(cp)) return cp;
+    }
+  }
+
+  // 3. Fallback to system python/python3
+  return isWindows ? 'python' : 'python3';
+}
+
+// Check CLI override: npm run sync -- --voice najwa
+const voiceFlagIdx = args.indexOf('--voice');
+let activeVoiceProfile = null;
+if (voiceFlagIdx !== -1 && args[voiceFlagIdx + 1]) {
+  activeVoiceProfile = args[voiceFlagIdx + 1];
+  if (!config.project) config.project = {};
+  if (!config.project.audio) config.project.audio = {};
+  config.project.audio.voiceProfile = activeVoiceProfile;
+} else {
+  activeVoiceProfile = config.project?.audio?.voiceProfile || 'default';
+}
+
+function runVoiceConversion(voiceProfile) {
+  if (!voiceProfile || ['default', 'none', 'original'].includes(voiceProfile.toLowerCase())) {
+    console.log(`[sync:voice] ℹ️ Profil suara: 'default' -> Mengembalikan audio ke Google AI Studio TTS asli.`);
+    let restoredCount = 0;
+    for (let s = 1; s <= 20; s++) {
+      const rawPath = path.join(assetsDir, `raw_${s}.wav`);
+      const stdPath = path.join(assetsDir, `${s}.wav`);
+      if (fs.existsSync(rawPath)) {
+        fs.copyFileSync(rawPath, stdPath);
+        restoredCount++;
+      }
+    }
+    if (restoredCount > 0) {
+      console.log(`[sync:voice] ✅ Berhasil memulihkan ${restoredCount} file audio ke TTS asli.`);
+    }
+
+    const voicesBase = path.join(assetsDir, 'voices');
+    if (fs.existsSync(voicesBase)) {
+      const avail = fs.readdirSync(voicesBase)
+        .filter(f => /\.(wav|mp3|m4a|flac|ogg)$/i.test(f))
+        .map(f => path.basename(f, path.extname(f)));
+      if (avail.length > 0) {
+        console.log(`[sync:voice] 💡 Tersedia profil suara di assets/voices/: [${avail.join(', ')}]. Tentukan "voiceProfile": "${avail[0]}" di scenes.json untuk mengaktifkannya!`);
+      }
+    }
+    return;
+  }
+
+  // Ensure raw backups exist for all existing scenes before conversion
+  for (let s = 1; s <= 20; s++) {
+    const stdPath = path.join(assetsDir, `${s}.wav`);
+    const rawPath = path.join(assetsDir, `raw_${s}.wav`);
+    if (fs.existsSync(stdPath) && !fs.existsSync(rawPath)) {
+      fs.copyFileSync(stdPath, rawPath);
+    }
+  }
+
+  // Cek apakah file suara tokoh (misal: assets/voices/jokowi.wav) atau foldernya tersedia
+  const voicesBase = path.join(assetsDir, 'voices');
+  const exts = ['.wav', '.mp3', '.m4a', '.flac', '.ogg'];
+  const hasDirectFile = exts.some(ext => fs.existsSync(path.join(voicesBase, `${voiceProfile}${ext}`)));
+  const hasSubDir = fs.existsSync(path.join(voicesBase, voiceProfile)) && fs.statSync(path.join(voicesBase, voiceProfile)).isDirectory();
+
+  if (!hasDirectFile && !hasSubDir) {
+    console.warn(`[sync:voice] ⚠️ File suara referensi 'assets/voices/${voiceProfile}.wav' belum ditemukan.`);
+    console.log(`[sync:voice] ℹ️ Cukup taruh file audio tokoh langsung di assets/voices/${voiceProfile}.wav`);
+    console.log(`[sync:voice] ℹ️ Fallback aktif: Tetap menggunakan audio TTS asli tanpa memblokir produksi!`);
+    return;
+  }
+
+  const convertScript = path.join(__dirname, 'scripts', 'convert_voice.py');
+  if (!fs.existsSync(convertScript)) {
+    console.warn(`[sync:voice] ⚠️ Script scripts/convert_voice.py tidak ditemukan.`);
+    return;
+  }
+
+  const pythonBin = findPythonExecutable();
+  console.log(`[sync:voice] 🎙️ Menjalankan konversi Seed-VC ke profil '${voiceProfile}' (Python: ${pythonBin})...`);
+
+  try {
+    execFileSync(pythonBin, [convertScript, '--voice', voiceProfile, '--assets-dir', assetsDir], {
+      stdio: 'inherit',
+      cwd: __dirname
+    });
+  } catch (err) {
+    console.warn(`[sync:voice] ⚠️ Gagal menjalankan Seed-VC (${err.message}).`);
+    console.log(`[sync:voice] ℹ️ Fallback aktif: Tetap menggunakan audio TTS asli tanpa memblokir produksi!`);
+  }
+}
+
+// Execute voice conversion if configured
+runVoiceConversion(activeVoiceProfile);
 
 function getDuration(filePath) {
   try {

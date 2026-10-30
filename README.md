@@ -113,6 +113,79 @@ Hasilnya akan tersimpan dengan nama **`output_hq.mp4`**.
 
 ---
 
+## 🎙️ Voiceover Publik Figur (Seed-VC Integration)
+
+Template ini terintegrasi langsung dengan **Seed-VC (Zero-Shot Voice Conversion)** sehingga Anda bisa mengubah suara narator Google AI Studio TTS menjadi suara tokoh/publik figur (misal: Pak Jokowi, Najwa Shihab, Deddy Corbuzier, dll).
+
+### 🛡️ Graceful Fallback (Produksi Tidak Pernah Terblokir)
+> **PENTING:** Fitur ini dirancang dengan sistem **Graceful Fallback**. 
+> Jika Anda bekerja di laptop lain yang **belum diinstall Seed-VC** (atau jika Seed-VC dilewati), `sync.js` akan otomatis menggunakan suara Google AI Studio TTS asli secara langsung. **Proses produksi, preview, dan render tidak akan pernah error atau terblokir!**
+
+---
+
+### 🚀 Cara Penggunaan Sehari-hari:
+1. **Pilih Tokoh di `scenes.json`**:
+   Tentukan profil tokoh di bagian `project.audio.voiceProfile` (atau biarkan dipilih otomatis oleh AI saat generate naskah di `PROMPT_PIPELINE.md`):
+   ```json
+   "audio": {
+     "bgmSrc": "assets/bgm.mp3",
+     "bgmVolume": 0.15,
+     "voiceProfile": "najwa"
+   }
+   ```
+   *Pilihan profil default:* `"najwa"`, `"jokowi"`, `"deddy"`, atau `"default"` (suara TTS asli).
+2. **Download TTS dari Google AI Studio**:
+   Generate audio per scene di Google AI Studio TTS seperti biasa.
+3. **Eksekusi 1 Perintah (`npm run sync`)**:
+   ```bash
+   npm run sync
+   # atau jika file audio baru ada di Downloads:
+   npm run sync:import
+   ```
+   *Secara otomatis:*
+   - Audio TTS diimpor dan disimpan cadangan aslinya (`raw_1.wav`, `raw_2.wav`, dst.).
+   - Model Seed-VC mengonversi seluruh scene ke timbre suara tokoh yang dipilih.
+   - Durasi audio baru dihitung ulang dengan `ffprobe` dan disinkronkan ke `scenes.json` & `index.html`.
+
+---
+
+### 💻 Setup di Laptop Lain (Hanya Jalankan Jika Ingin Voice Conversion Aktif):
+
+#### A. Di Windows (NVIDIA GPU / CUDA):
+Jalankan script otomatis:
+```bat
+scripts\setup_voice_env.bat
+```
+Script ini akan:
+1. Menghubungkan instalasi Seed-VC lokal (jika sudah ada di `MSI\seed-vc`) atau meng-clone repository ke `tools/seed-vc`.
+2. Menyiapkan virtualenv Python dan memasang PyTorch + CUDA.
+3. Mengunduh checkpoints model yang dibutuhkan.
+
+#### B. Di MacBook Pro M2 (macOS Apple Silicon):
+Jalankan script shell:
+```bash
+bash scripts/setup_voice_env.sh
+```
+Script ini akan:
+1. Meng-clone repository Seed-VC ke `tools/seed-vc`.
+2. Menyiapkan virtualenv dan memasang PyTorch ARM64 yang mendukung **akselerasi Metal / MPS (Apple Silicon GPU)**.
+3. Memasang dependensi khusus macOS (`requirements-mac.txt`).
+
+---
+
+### 🎧 Menambahkan Suara Tokoh Baru:
+Cukup taruh file rekaman suara bersih (5–15 detik) langsung di folder `assets/voices/`:
+```text
+assets/voices/
+├── najwa.wav
+├── jokowi.wav
+└── [nama_tokoh_baru].wav
+```
+*(Format yang didukung: `.wav`, `.mp3`, `.m4a`)*
+*Tips:* Gunakan rekaman suara yang jernih (*dry speech*) tanpa musik pengiring (BGM) atau kebisingan latar.
+
+---
+
 ## 🛠️ Ringkasan Command (Cheat Sheet)
 
 | Perintah | Deskripsi |
