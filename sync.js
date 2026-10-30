@@ -217,6 +217,88 @@ function resolveAudio(rawAudioSrc, sceneIndex) {
   return rawAudioSrc;
 }
 
+// Smart SFX Resolver supporting all 21 HyperFrames built-in sound effects
+const sfxDir = path.join(assetsDir, 'sfx');
+const sfxManifestPath = path.join(sfxDir, 'manifest.json');
+let sfxManifest = {};
+if (fs.existsSync(sfxManifestPath)) {
+  try {
+    sfxManifest = JSON.parse(fs.readFileSync(sfxManifestPath, 'utf8'));
+  } catch (e) {
+    console.error('[sync] Error loading sfx manifest:', e);
+  }
+}
+
+// Map aliases / intuitive names to exact manifest keys
+const sfxAliases = {
+  'impact': 'impact-bass-1',
+  'slam': 'impact-bass-1',
+  'bass-hit': 'impact-bass-1',
+  'hit': 'impact-bass-1',
+  'heavy-impact': 'impact-bass-2',
+  'swoosh': 'whoosh',
+  'swipe': 'whoosh-short',
+  'fast-whoosh': 'whoosh-short',
+  'cinematic-whoosh': 'whoosh-cinematic',
+  'ui-click': 'click',
+  'tap': 'click-soft',
+  'button': 'click',
+  'ui-notification': 'notification',
+  'alert': 'notification',
+  'toast': 'notification',
+  'badge': 'pop',
+  'shimmer': 'sparkle',
+  'magic': 'sparkle',
+  'keyboard': 'typing',
+  'type': 'typing',
+  'confirm': 'chime',
+  'success': 'chime',
+  'fail': 'error',
+  'wrong': 'error',
+  'buildup': 'riser',
+  'build-up': 'riser'
+};
+
+function resolveSFX(sfxItem) {
+  if (!sfxItem) return null;
+  const rawCue = (sfxItem.cue || '').trim().toLowerCase();
+  const rawSrc = (sfxItem.assetSrc || '').trim();
+
+  // 1. Try rawSrc basename if present
+  let candidateKey = '';
+  if (rawSrc) {
+    const base = path.basename(rawSrc);
+    candidateKey = base.replace(/\.(mp3|wav|ogg|aac|m4a)$/i, '').toLowerCase();
+  }
+  if (!candidateKey && rawCue) {
+    candidateKey = rawCue;
+  }
+
+  // 2. Check alias
+  const manifestKey = sfxAliases[candidateKey] || candidateKey;
+
+  // 3. Match against manifest
+  if (sfxManifest[manifestKey]) {
+    const info = sfxManifest[manifestKey];
+    return {
+      file: `assets/sfx/${info.file}`,
+      duration: info.duration,
+      cue: manifestKey
+    };
+  }
+
+  // 4. Fallback: check if exact file exists in assets/sfx or assets/
+  if (rawSrc && fs.existsSync(path.join(__dirname, rawSrc))) {
+    return {
+      file: rawSrc,
+      duration: sfxItem.duration || 1.0,
+      cue: rawCue || candidateKey
+    };
+  }
+
+  return null;
+}
+
 let modified = false;
 let totalDuration = 0;
 
@@ -263,11 +345,88 @@ if (config.scenes && Array.isArray(config.scenes)) {
       }
     }
 
+    // 4. Auto-resolve and normalize SFX (Sound Design)
+    if (Array.isArray(scene.soundDesign)) {
+      scene.soundDesign.forEach((sfx, sfxIdx) => {
+        const resolved = resolveSFX(sfx);
+        if (resolved) {
+          if (sfx.assetSrc !== resolved.file) {
+            console.log(`[sync] Scene ${i + 1} (${scene.id}): Auto-resolved SFX -> ${resolved.file} (was ${sfx.assetSrc || sfx.cue})`);
+            sfx.assetSrc = resolved.file;
+            modified = true;
+          }
+          if (!sfx.duration || Math.abs(parseFloat(sfx.duration) - resolved.duration) > 0.05) {
+            sfx.duration = resolved.duration;
+            modified = true;
+          }
+          if (sfx.volume === undefined) {
+            sfx.volume = 0.45;
+            modified = true;
+          }
+          if (sfx.at === undefined) {
+            sfx.at = 0;
+            modified = true;
+          }
+        }
+      });
+    }
+
     totalDuration += dur;
   });
 }
 
 console.log(`[sync] Total Video Duration: ${totalDuration.toFixed(1)}s across ${config.scenes?.length || 0} scenes.`);
+
+// 4. Stamp static audio & SFX elements into index.html for HyperFrames compiler & render
+const indexPath = path.join(__dirname, 'index.html');
+if (fs.existsSync(indexPath)) {
+  let indexHtml = fs.readFileSync(indexPath, 'utf8');
+  let currentStart = 0;
+  let audioElementsHtml = '';
+
+  config.scenes.forEach((scene, i) => {
+    const start = currentStart;
+    const dur = parseFloat(scene.durationInSeconds) || 4.0;
+    const sceneId = `scene-${i + 1}`;
+
+    // 1. Voiceover Audio
+    if (scene.audioSrc && fs.existsSync(path.join(__dirname, scene.audioSrc))) {
+      const exactAudioDur = parseFloat(scene.audioDuration) || dur;
+      audioElementsHtml += `\n        <audio id="${sceneId}-audio-vo" src="${scene.audioSrc}" data-start="${start.toFixed(2)}" data-duration="${exactAudioDur.toFixed(2)}" data-volume="1.0" data-track-index="1"></audio>`;
+    }
+
+    // 2. Sound Design (SFX)
+    if (Array.isArray(scene.soundDesign)) {
+      scene.soundDesign.forEach((sfx, sfxIdx) => {
+        if (sfx.assetSrc && fs.existsSync(path.join(__dirname, sfx.assetSrc))) {
+          const sfxStart = start + (parseFloat(sfx.at) || 0);
+          const sfxDur = sfx.duration ? ` data-duration="${parseFloat(sfx.duration).toFixed(2)}"` : '';
+          const sfxVol = sfx.volume !== undefined ? ` data-volume="${parseFloat(sfx.volume)}"` : '';
+          audioElementsHtml += `\n        <audio id="${sceneId}-sfx-${sfxIdx + 1}" src="${sfx.assetSrc}" data-start="${sfxStart.toFixed(2)}"${sfxDur}${sfxVol} data-track-index="2"></audio>`;
+        }
+      });
+    }
+
+    currentStart += dur;
+  });
+
+  // 3. Background Music (BGM)
+  if (config.project?.audio?.bgmSrc && fs.existsSync(path.join(__dirname, config.project.audio.bgmSrc))) {
+    const bgmVol = config.project.audio.bgmVolume || 0.15;
+    audioElementsHtml += `\n        <audio id="bgm-audio" src="${config.project.audio.bgmSrc}" data-start="0.00" data-duration="${currentStart.toFixed(2)}" data-volume="${bgmVol}" data-track-index="0"></audio>`;
+  }
+
+  if (audioElementsHtml) {
+    audioElementsHtml += '\n      ';
+  }
+
+  const audioWrapperRegex = /(<div\b[^>]*\bid="audio-wrapper"[^>]*>)([\s\S]*?)(<\/div>)/i;
+  if (audioWrapperRegex.test(indexHtml)) {
+    indexHtml = indexHtml.replace(audioWrapperRegex, `$1${audioElementsHtml}$3`);
+    fs.writeFileSync(indexPath, indexHtml, 'utf8');
+    console.log('[sync] Stamped static audio & SFX elements into index.html');
+  }
+}
 
 // Write runtime scenes.js
 fs.writeFileSync(scenesJsPath, 'window.SCENES_DATA = ' + JSON.stringify(config, null, 2) + ';\n');

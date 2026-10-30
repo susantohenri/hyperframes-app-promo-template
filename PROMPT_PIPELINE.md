@@ -406,7 +406,68 @@ VO dari **TTS**. **SFX** Flow volume rendah, tidak menabrak VO.
 
 Semua atribut di bawah tersedia untuk dipakai di scenes.json. Aturan pemakaian ada di Bagian 8.
 
-7.1 Lapisan art direction (paling penting) Atribut Opsi Kapan menentukan scenePurpose hook, context, problem, insight, solution, proof, payoff, cta Wajib per scene — jadi dasar pemilihan atribut lain visualMetaphor discovery, frustration, chaos-to-order, reveal, unlock, celebration, before-after 1 per scene, ikuti arc naratif focalPoint headline, keyword, screenshot, phone-ui, feature, cta-button 1 per scene attentionLevel subtle, medium, high, maximum 1 per scene — cocokkan dengan ritme variationMode consistent-brand, alternate-layout, alternate-style, editorial-choice 1 untuk seluruh video ctaTreatment app-icon-hero, store-badge, download-button, phone-mockup, end-card 1 untuk **CTA** 7.2 Lapisan visual utama (prioritas variasi) Atribut Opsi visualStyle comic-pop, kinetic-sticker, gaming-hud, cyber-neon, retro-arcade, scrapbook, editorial, cinematic, minimal-clean, 3d-toy, paper-cutout, glitch-tech layout center-hero, split-screen, diagonal, asymmetric, full-bleed, picture-in-picture, stacked-cards, collage, grid, foreground-background, floating-ui, bottom-caption mediaMotion slow-zoom-in, zoom-out, pan-left, pan-right, pan-up, pan-down, parallax, 3d-tilt, handheld-drift, shake-on-impact, focus-pull, subtle-float, none imageTreatment full-bleed, rounded-card, polaroid, torn-paper, thick-border, neon-frame, tilted-card, phone-mockup, masked-circle, diagonal-mask, stacked-photos, floating-panel 7.3 Tipografi & penekanan Atribut Opsi textTreatment.fontMood heavy-condensed, rounded-playful, bold-geometric, monospace-tech, editorial-serif, handwritten, pixel-arcade textTreatment.decoration thick-outline, hard-shadow, soft-glow, gradient-fill, 3d-extrusion, double-shadow, distorted, clean-flat emphasisEffect marker-sweep, circle, burst, scribble, sketch-outline, underline, arrow-point, spotlight, color-invert, scale-emphasis, word-by-word, karaoke-highlight 7.4 Transisi antar-scene Atribut Opsi transitionIn cut, crossfade, blur-crossfade, push-left, push-up, elastic-push, zoom-through, zoom-out, whip-pan, glitch, chromatic-split, ripple, circle-iris, diagonal-split, 3d-flip, blinds, shutter, light-leak, flash-through-white, page-burn, grid-dissolve, gravity-drop transitionOut (opsi sama) 7.5 Overlay & latar Atribut Opsi overlayElements sticker, emoji, arrow, speech-bubble, speed-lines, starburst, sparkles, particles, confetti, crosshair, scanlines, hologram, hand-drawn-doodle, notification-badge, game-controller-icons backgroundTreatment solid-color, gradient, radial-glow, blurred-duplicate-image, pattern, grid, noise-texture, animated-gradient, vignette, floating-particles, layered-parallax, dark-overlay 7.6 Warna, gerak, ritme Atribut Opsi colorTreatment natural, high-contrast, saturated, duotone, monochrome, neon-glow, warm-film, cool-tech, retro-vhs, rgb-split, film-grain, bloom, posterized motionFeel smooth, snappy, bouncy, springy, dramatic, dreamy timingStyle fast-punchy, steady, cinematic-slow, staggered, beat-synced, voiceover-synced, pause-before-reveal, rapid-montage 7.7 Kedalaman & caption Atribut Opsi depthStyle flat-2d, layered-2d, parallax-depth, 3d-perspective, foreground-occlusion, floating-depth captionStyle plain-subtitle, karaoke-word, tiktok-highlight, editorial-emphasis, glitch-rgb, neon-glow, gradient-fill, emoji-pop, parallax-layers, particle-burst, typewriter 7.8 Suara (selain VO & **BGM**) Atribut Opsi soundDesign.cue whoosh, impact, pop, click, swoosh, riser, bass-hit, glitch, sparkle, camera-shutter, UI-notification Setiap cue punya at, volume, duration, assetSrc.
+7.1 Lapisan art direction (paling penting)
+Atribut: scenePurpose, visualMetaphor, focalPoint, attentionLevel, variationMode, ctaTreatment.
+- scenePurpose: hook, context, problem, insight, solution, proof, payoff, cta (Wajib per scene)
+- visualMetaphor: discovery, frustration, chaos-to-order, reveal, unlock, celebration, before-after (1 per scene, ikuti arc naratif)
+- focalPoint: headline, keyword, screenshot, phone-ui, feature, cta-button (1 per scene)
+- attentionLevel: subtle, medium, high, maximum (1 per scene — cocokkan dengan ritme)
+- variationMode: consistent-brand, alternate-layout, alternate-style, editorial-choice (1 untuk seluruh video)
+- ctaTreatment: app-icon-hero, store-badge, download-button, phone-mockup, end-card (1 untuk CTA)
+
+7.2 Lapisan visual utama (prioritas variasi)
+- visualStyle: comic-pop, kinetic-sticker, gaming-hud, cyber-neon, retro-arcade, scrapbook, editorial, cinematic, minimal-clean, 3d-toy, paper-cutout, glitch-tech
+- layout: center-hero, split-screen, diagonal, asymmetric, full-bleed, picture-in-picture, stacked-cards, collage, grid, foreground-background, floating-ui, bottom-caption
+- mediaMotion: slow-zoom-in, zoom-out, pan-left, pan-right, pan-up, pan-down, parallax, 3d-tilt, handheld-drift, shake-on-impact, focus-pull, subtle-float, none
+- imageTreatment: full-bleed, rounded-card, polaroid, torn-paper, thick-border, neon-frame, tilted-card, phone-mockup, masked-circle, diagonal-mask, stacked-photos, floating-panel
+
+7.3 Tipografi & penekanan
+- textTreatment.fontMood: heavy-condensed, rounded-playful, bold-geometric, monospace-tech, editorial-serif, handwritten, pixel-arcade
+- textTreatment.decoration: thick-outline, hard-shadow, soft-glow, gradient-fill, 3d-extrusion, double-shadow, distorted, clean-flat
+- emphasisEffect: marker-sweep, circle, burst, scribble, sketch-outline, underline, arrow-point, spotlight, color-invert, scale-emphasis, word-by-word, karaoke-highlight
+
+7.4 Transisi antar-scene
+- transitionIn & transitionOut: cut, crossfade, blur-crossfade, push-left, push-up, elastic-push, zoom-through, zoom-out, whip-pan, glitch, chromatic-split, ripple, circle-iris, diagonal-split, 3d-flip, blinds, shutter, light-leak, flash-through-white, page-burn, grid-dissolve, gravity-drop
+
+7.5 Overlay & latar
+- overlayElements: sticker, emoji, arrow, speech-bubble, speed-lines, starburst, sparkles, particles, confetti, crosshair, scanlines, hologram, hand-drawn-doodle, notification-badge, game-controller-icons
+- backgroundTreatment: solid-color, gradient, radial-glow, blurred-duplicate-image, pattern, grid, noise-texture, animated-gradient, vignette, floating-particles, layered-parallax, dark-overlay
+
+7.6 Warna, gerak, ritme
+- colorTreatment: natural, high-contrast, saturated, duotone, monochrome, neon-glow, warm-film, cool-tech, retro-vhs, rgb-split, film-grain, bloom, posterized
+- motionFeel: smooth, snappy, bouncy, springy, dramatic, dreamy
+- timingStyle: fast-punchy, steady, cinematic-slow, staggered, beat-synced, voiceover-synced, pause-before-reveal, rapid-montage
+
+7.7 Kedalaman & caption
+- depthStyle: flat-2d, layered-2d, parallax-depth, 3d-perspective, foreground-occlusion, floating-depth
+- captionStyle: plain-subtitle, karaoke-word, tiktok-highlight, editorial-emphasis, glitch-rgb, neon-glow, gradient-fill, emoji-pop, parallax-layers, particle-burst, typewriter
+
+7.8 Sound Design — Katalog 21 SFX Bawaan HyperFrames (Offline Native MP3)
+Setiap cue SFX berada di `assets/sfx/<file>.mp3`. Atribut per cue: `cue`, `at` (detik relatif terhadap start scene), `volume` (rekomendasi 0.35–0.50 agar tidak menabrak VO), `duration` (detik), dan `assetSrc` (`assets/sfx/<file>.mp3`).
+
+| Kategori | Cue / Key | File Aset (.mp3) | Durasi | Karakter Suara & Kapan Digunakan | Pasangan Visual / Animasi Terbaik |
+| :--- | :--- | :--- | :--- | :--- | :--- |
+| **Impact / Slam** | `impact-bass-1` | `assets/sfx/impact-bass-1.mp3` | 2.12s | Bass hit punchy & solid untuk hook pembuka, headline slam, atau logo snap. | `animation: "slam"`, `emphasisEffect: ["burst"]`, `attentionLevel: "maximum"` |
+| | `impact-bass-2` | `assets/sfx/impact-bass-2.mp3` | 2.59s | Bass impact dengan short swell di awal sebelum deep hit. Cocok untuk reveal masalah berat atau payoff besar. | `mediaMotion: "shake-on-impact"`, `visualMetaphor: "frustration"` |
+| **Transisi & Gerakan** | `whoosh` | `assets/sfx/whoosh.mp3` | 0.57s | Punchy impact whoosh untuk transisi tegas atau pergerakan objek cepat. | `transitionIn: "push-up"`, `"cut"`, `motionFeel: "snappy"` |
+| | `whoosh-short` | `assets/sfx/whoosh-short.mp3` | 0.57s | Short whoosh lembut untuk swipe, slide kartu, atau perubahan elemen halus. | `animation: "slide"`, `transitionIn: "crossfade"`, `mediaMotion: "pan-right"` |
+| | `whoosh-cinematic` | `assets/sfx/whoosh-cinematic.mp3` | 5.54s | Swell whoosh sinematik panjang untuk transisi babak besar. | `transitionIn: "zoom-through"`, `timingStyle: "cinematic-slow"` |
+| **UI & Interaksi** | `click` | `assets/sfx/click.mp3` | 0.37s | Crisp UI click untuk penekanan tombol download CTA, toggle, atau aksi pengguna. | `focalPoint: "cta-button"`, `ctaTreatment: "download-button"` |
+| | `click-soft` | `assets/sfx/click-soft.mp3` | 0.37s | Tap halus / selection sound di layar smartphone mockup. | `imageTreatment: "phone-mockup"`, `focalPoint: "phone-ui"` |
+| | `pop` | `assets/sfx/pop.mp3` | 0.72s | Quick bubble pop saat elemen grafis muncul mendadak. | `animation: "pop"`, `badge`, `overlayElements: ["sticker", "emoji"]` |
+| | `key-press` | `assets/sfx/key-press.mp3` | 0.40s | Satu ketukan tuts keyboard untuk trigger input. | `textTreatment.fontMood: "monospace-tech"` |
+| | `typing` | `assets/sfx/typing.mp3` | 1.50s | Rentetan ketikan keyboard saat mengetik teks/pencarian di UI. | `animation: "typewriter"`, `captionStyle: "typewriter"` |
+| **Aksen & Highlight** | `sparkle` | `assets/sfx/sparkle.mp3` | 1.80s | Kilauan magis/shimmer saat fitur unggulan atau solusi diperkenalkan. | `overlayElements: ["sparkles"]`, `visualMetaphor: "discovery"` |
+| | `ping` | `assets/sfx/ping.mp3` | 1.32s | Electronic ping tajam saat data/angka statistik penting di-highlight. | `emphasisEffect: ["spotlight"]`, `highlightWords` |
+| | `notification` | `assets/sfx/notification.mp3` | 2.46s | Nada dering alert notifikasi HP untuk peringatan atau pesan baru. | `overlayElements: ["notification-badge"]`, `badge` |
+| | `chime` | `assets/sfx/chime.mp3` | 2.50s | Lonceng melodik lembut bernada sukses/lega saat masalah terselesaikan. | `visualMetaphor: "unlock"`, `"celebration"`, `scenePurpose: "payoff"` |
+| **Tensi & Emosi** | `riser` | `assets/sfx/riser.mp3` | 10.03s | Build-up tensi panjang (~10s) yang memuncak tepat di momen reveal. | `visualMetaphor: "reveal"`, `timingStyle: "pause-before-reveal"` |
+| | `error` | `assets/sfx/error.mp3` | 1.62s | Nada negatif / alarm kesalahan saat mengulas cara lama yang salah. | `visualMetaphor: "frustration"`, `scenePurpose: "problem"` |
+| **Digital / Glitch** | `glitch-1` | `assets/sfx/glitch-1.mp3` | 2.64s | Punchy digital glitch untuk transisi shock atau potong kasar (hard-cut). | `transitionIn: "glitch"`, `animation: "glitch"`, `captionStyle: "glitch-rgb"` |
+| | `glitch-2` | `assets/sfx/glitch-2.mp3` | 3.50s | Glitch keras dan kacau untuk visualisasi kekacauan atau kegagalan sistem. | `visualMetaphor: "chaos-to-order"` |
+| | `glitch-3` | `assets/sfx/glitch-3.mp3` | 3.10s | Tekstur digital glitch halus yang duduk di latar belakang. | `backgroundTreatment: "noise-texture"`, `visualStyle: "glitch-tech"` |
+
+*Aturan Anti-Chaos SFX: Maksimal 2 cue soundDesign per scene. Volume 0.35–0.50 agar seimbang di bawah VO.*
 
 7.9 Animasi (nilai animation) 15 opsi: slam, pop, bounce, spring, fade, slide, zoom, spin, glitch, shake, wipe, stagger, blur reveal, elastic, typewriter.
 
@@ -510,7 +571,154 @@ Keluarkan hanya **JSON** valid, tanpa komentar, tanpa trailing comma. Jumlah s
 
 Contoh struktur (bukan jumlah scene final):
 
-{ *project*: { *appName*: ***NAMA** **APLIKASI***, *websiteUrl*: ***URL** **GOOGLE** **PLAY***, *ctaHeadline*: ***DOWNLOAD** DI **GOOGLE** **PLAY***, *ctaSubline*: *Cari [**NAMA** **APLIKASI**] di Google Play Store*, *theme*: { *primaryColor*: *#**HEX***, *accentColor*: *#**HEX***, *highlightColor*: *#**HEX***, *bgDark*: *#**HEX*** }, *creativeDirection*: { *primaryVisualStyle*: *cinematic*, *accentVisualStyle*: *minimal-clean*, *fontMood*: *bold-geometric*, *accentFontMood*: *heavy-condensed*, *motionFeel*: *snappy*, *colorTreatment*: *saturated*, *variationMode*: *editorial-choice* }, *audio*: { *bgmSrc*: "\*, *bgmVolume*: 0.15, *voiceoverSrc*: \*\* } }, *scenes*: [ { *id*: *scene-1*, *type*: *video*, *mediaSrc*: *assets/intro.mp4*, *audioSrc*: *assets/1.wav*, *durationInSeconds*: 4.0, *scenePurpose*: *hook*, *visualMetaphor*: *frustration*, *attentionLevel*: *maximum*, *focalPoint*: *headline*, *layout*: *center-hero*, *mediaMotion*: *shake-on-impact*, *imageTreatment*: *full-bleed*, *textTreatment*: { *fontMood*: *heavy-condensed*, *decoration*: *thick-outline* }, *emphasisEffect*: [*burst*, *scale-emphasis*], *transitionIn*: *cut*, *transitionOut*: *crossfade*, *backgroundTreatment*: *radial-glow*, *captionStyle*: *tiktok-highlight*, *timingStyle*: *fast-punchy*, *soundDesign*: [{ *cue*: *impact*, *at*: 0.0, *volume*: 0.8 }], *depthStyle*: *layered-2d*, *badge*: *HOOK*, *headline*: ***HEADLINE** **PENDEK***, *highlightWords*: [***KATA** **KUNCI***], *subtitle*: *Kalimat voiceover scene 1 persis.*, *animation*: *slam* }, { *id*: *scene-2*, *type*: *image*, *mediaSrc*: *assets/2.jpg*, *audioSrc*: *assets/2.wav*, *durationInSeconds*: 5.0, *scenePurpose*: *context*, *visualMetaphor*: *frustration*, *attentionLevel*: *medium*, *focalPoint*: *keyword*, *layout*: *split-screen*, *mediaMotion*: *pan-right*, *imageTreatment*: *rounded-card*, *textTreatment*: { *fontMood*: *bold-geometric*, *decoration*: *hard-shadow* }, *emphasisEffect*: [*underline*], *transitionIn*: *crossfade*, *transitionOut*: *push-up*, *captionStyle*: *plain-subtitle*, *timingStyle*: *steady*, *badge*: *MASALAH*, *headline*: ***HEADLINE** **PENDEK***, *highlightWords*: [***KATA** **KUNCI***], *subtitle*: *Kalimat voiceover scene 2.*, *animation*: *pop* }, { *id*: *scene-final*, *type*: *video*, *mediaSrc*: *assets/outro.mp4*, *audioSrc*: *assets/7.wav*, *durationInSeconds*: 6.0, *scenePurpose*: *cta*, *visualMetaphor*: *celebration*, *attentionLevel*: *maximum*, *focalPoint*: *cta-button*, *layout*: *bottom-caption*, *mediaMotion*: *subtle-float*, *imageTreatment*: *phone-mockup*, *textTreatment*: { *fontMood*: *heavy-condensed*, *decoration*: *thick-outline* }, *emphasisEffect*: [*word-by-word*, *karaoke-highlight*], *transitionIn*: *whip-pan*, *transitionOut*: *cut*, *backgroundTreatment*: *blurred-duplicate-image*, *captionStyle*: *karaoke-word*, *timingStyle*: *fast-punchy*, *soundDesign*: [{ *cue*: *impact*, *at*: 0.0, *volume*: 0.6 }], *depthStyle*: *layered-2d*, *ctaTreatment*: *app-icon-hero*, *badge*: *CTA*, *headline*: ***DOWNLOAD** DI **GOOGLE** **PLAY***, *highlightWords*: [*DOWNLOAD*, ***GOOGLE** **PLAY***], *subtitle*: *Kalimat penutup **CTA**.*, *animation*: \*slam" } ] }
+```json
+{
+  "project": {
+    "appName": "NAMA APLIKASI",
+    "websiteUrl": "URL GOOGLE PLAY",
+    "ctaHeadline": "DOWNLOAD DI GOOGLE PLAY",
+    "ctaSubline": "Cari [NAMA APLIKASI] di Google Play Store",
+    "theme": {
+      "primaryColor": "#1F6F54",
+      "accentColor": "#2FA9A0",
+      "highlightColor": "#F2B84B",
+      "bgDark": "#0E1F1A"
+    },
+    "creativeDirection": {
+      "primaryVisualStyle": "cinematic",
+      "accentVisualStyle": "minimal-clean",
+      "fontMood": "bold-geometric",
+      "accentFontMood": "heavy-condensed",
+      "motionFeel": "snappy",
+      "colorTreatment": "saturated",
+      "variationMode": "editorial-choice"
+    },
+    "audio": {
+      "bgmSrc": "assets/bgm.mp3",
+      "bgmVolume": 0.15,
+      "voiceoverSrc": ""
+    }
+  },
+  "scenes": [
+    {
+      "id": "scene-1",
+      "type": "video",
+      "mediaSrc": "assets/intro.mp4",
+      "audioSrc": "assets/1.wav",
+      "durationInSeconds": 4.0,
+      "scenePurpose": "hook",
+      "visualMetaphor": "frustration",
+      "attentionLevel": "maximum",
+      "focalPoint": "headline",
+      "layout": "center-hero",
+      "mediaMotion": "shake-on-impact",
+      "imageTreatment": "full-bleed",
+      "textTreatment": {
+        "fontMood": "heavy-condensed",
+        "decoration": "thick-outline"
+      },
+      "emphasisEffect": ["burst", "scale-emphasis"],
+      "transitionIn": "cut",
+      "transitionOut": "crossfade",
+      "backgroundTreatment": "radial-glow",
+      "captionStyle": "tiktok-highlight",
+      "timingStyle": "fast-punchy",
+      "soundDesign": [
+        {
+          "cue": "impact-bass-1",
+          "at": 0.0,
+          "volume": 0.5,
+          "duration": 2.12,
+          "assetSrc": "assets/sfx/impact-bass-1.mp3"
+        }
+      ],
+      "depthStyle": "layered-2d",
+      "badge": "HOOK",
+      "headline": "HEADLINE PENDEK",
+      "highlightWords": ["KATA KUNCI"],
+      "subtitle": "Kalimat voiceover scene 1 persis.",
+      "animation": "slam"
+    },
+    {
+      "id": "scene-2",
+      "type": "image",
+      "mediaSrc": "assets/2.jpg",
+      "audioSrc": "assets/2.wav",
+      "durationInSeconds": 5.0,
+      "scenePurpose": "context",
+      "visualMetaphor": "frustration",
+      "attentionLevel": "medium",
+      "focalPoint": "keyword",
+      "layout": "split-screen",
+      "mediaMotion": "pan-right",
+      "imageTreatment": "rounded-card",
+      "textTreatment": {
+        "fontMood": "bold-geometric",
+        "decoration": "hard-shadow"
+      },
+      "emphasisEffect": ["underline"],
+      "transitionIn": "crossfade",
+      "transitionOut": "push-up",
+      "captionStyle": "plain-subtitle",
+      "timingStyle": "steady",
+      "soundDesign": [
+        {
+          "cue": "pop",
+          "at": 0.15,
+          "volume": 0.4,
+          "duration": 0.72,
+          "assetSrc": "assets/sfx/pop.mp3"
+        }
+      ],
+      "badge": "MASALAH",
+      "headline": "HEADLINE PENDEK",
+      "highlightWords": ["KATA KUNCI"],
+      "subtitle": "Kalimat voiceover scene 2.",
+      "animation": "pop"
+    },
+    {
+      "id": "scene-final",
+      "type": "video",
+      "mediaSrc": "assets/outro.mp4",
+      "audioSrc": "assets/7.wav",
+      "durationInSeconds": 6.0,
+      "scenePurpose": "cta",
+      "visualMetaphor": "celebration",
+      "attentionLevel": "maximum",
+      "focalPoint": "cta-button",
+      "layout": "bottom-caption",
+      "mediaMotion": "subtle-float",
+      "imageTreatment": "phone-mockup",
+      "textTreatment": {
+        "fontMood": "heavy-condensed",
+        "decoration": "thick-outline"
+      },
+      "emphasisEffect": ["word-by-word", "karaoke-highlight"],
+      "transitionIn": "whip-pan",
+      "transitionOut": "cut",
+      "backgroundTreatment": "blurred-duplicate-image",
+      "captionStyle": "karaoke-word",
+      "timingStyle": "fast-punchy",
+      "soundDesign": [
+        {
+          "cue": "click",
+          "at": 0.5,
+          "volume": 0.45,
+          "duration": 0.37,
+          "assetSrc": "assets/sfx/click.mp3"
+        }
+      ],
+      "depthStyle": "layered-2d",
+      "ctaTreatment": "app-icon-hero",
+      "badge": "CTA",
+      "headline": "DOWNLOAD DI GOOGLE PLAY",
+      "highlightWords": ["DOWNLOAD", "GOOGLE PLAY"],
+      "subtitle": "Kalimat penutup CTA.",
+      "animation": "slam"
+    }
+  ]
+}
+```
 
 Aturan properti animation: 15 opsi (slam, pop, bounce, spring, fade, slide, zoom, spin, glitch, shake, wipe, stagger, blur reveal, elastic, typewriter).
 
@@ -518,9 +726,11 @@ mediaSrc video: assets/intro.mp4, assets/outro.mp4.
 
 mediaSrc gambar: assets/2.jpg, assets/3.jpg, dst.
 
-audioSrc: assets/1.wav, dst.
+audioSrc: assets/1.wav, dst (voiceover).
 
-durationInSeconds: budget; sync.js sinkron dengan **WAV** aktual.
+soundDesign: assets/sfx/<name>.mp3 (katalog 21 SFX bawaan HyperFrames di 7.8, sync.js mendukung cue singkat dan auto-duration).
+
+durationInSeconds: budget; sync.js sinkron dengan WAV aktual.
 
 Auto-Sync mendukung suffix acak Flow (intro_04077952.mp4, 2_c6a13590.jpg).
 

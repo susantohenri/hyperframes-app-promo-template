@@ -7,3 +7,6 @@ preview_snapshots/
 Thumbs.db
 .thumbnails/
 .waveform-cache/
+assets/*.mp4
+assets/*.jpg
+assets/*.wav
