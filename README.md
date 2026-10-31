@@ -39,10 +39,10 @@ hyperframes-app-promo-template/
 1. Buka file [`PROMPT_PIPELINE.md`](./PROMPT_PIPELINE.md).
 2. Salin seluruh isi prompt dan kirimkan ke AI (Google Gemini, Claude, atau ChatGPT).
 3. Masukkan nama aplikasi atau tautan Google Play Store Anda.
-4. AI akan menghasilkan 4 bagian:
+4. AI akan menghasilkan bagian-bagian produksi:
    * Naskah Voiceover & arahan TTS.
-   * Prompt gambar vertikal 9:16 (Imagen / Midjourney).
-   * Prompt video gerak (Veo) untuk Hook & Outro.
+   * 3 Flow Ingredients (konsistensi visual).
+   * Prompt gambar vertikal 9:16 (Imagen) & prompt video gerak (Veo 3.1) fleksibel untuk scene mana pun (Hook, Problem, Solution, Payoff, CTA).
    * Blok kode `scenes.json`.
 
 ---
@@ -55,18 +55,20 @@ Buat aset-aset tersebut menggunakan tool AI masing-masing, lalu simpan ke folder
     * `assets/1.wav`
     * `assets/2.wav`
     * `assets/3.wav`, dst.
-* **Gambar (Google Flow / Imagen / Midjourney):**
-  * Generate gambar 9:16 untuk setiap scene -> Simpan sebagai:
+* **Gambar (Google Flow / Imagen):**
+  * Generate gambar 9:16 untuk scene bertipe gambar -> Simpan sebagai:
     * `assets/1.jpg` (atau `1_[suffix].jpg`, misal `1_c6a13590.jpg`)
-    * `assets/2.jpg` (atau `2_[suffix].jpg`, misal `2_c6a13590.jpg`)
+    * `assets/2.jpg` (atau `2_[suffix].jpg`, misal `2_43e16503.jpg`)
     * `assets/3.jpg`, dst.
-* **Video Hook & Outro (Google Flow / Google Veo / Runway):**
-  * Simpan sebagai:
-    * `assets/intro.mp4` (atau `intro_[suffix].mp4`, misal `intro_04077952.mp4`)
-    * `assets/outro.mp4` (atau `outro_[suffix].mp4`)
+* **Video (Google Flow / Google Veo 3.1):**
+  * **Video tidak harus di awal & akhir saja!** Anda bebas menggunakan video untuk scene 1, 2, 3, dst., terutama untuk adegan masalah dinamis atau demonstrasi fitur. Simpan sebagai:
+    * `assets/1.mp4` atau `assets/intro.mp4` (atau `intro_[suffix].mp4`)
+    * `assets/2.mp4`, `assets/3.mp4`, `assets/4.mp4`, dst. (atau `3_[suffix].mp4`)
+    * `assets/outro.mp4` atau `assets/7.mp4` (atau `outro_[suffix].mp4`)
 
-> 💡 **Fitur Auto-Suffix & Auto-Import Google Flow:**
-> - File hasil download dari Google Flow yang memiliki suffix acak (seperti `intro_04077952.mp4` dan `2_c6a13590.jpg`) **TIDAK PERLU DI-RENAME!** Script `sync.js` akan otomatis mencocokkan file tersebut ke timeline.
+> 💡 **Fitur Deteksi Cerdas & Auto-Type `sync.js`:**
+> - File hasil unduhan Google Flow yang memiliki suffix acak (seperti `3_c6a13590.mp4`, `intro_04077952.mp4`, dan `2_c6a13590.jpg`) **TIDAK PERLU DI-RENAME!** Script `sync.js` akan otomatis mencocokkan file tersebut ke timeline scene.
+> - **Auto-Switch Type:** Jika Anda mengganti gambar di scene 3 dengan video `3.mp4` (atau sebaliknya), `sync.js` akan otomatis mengubah properti `"type": "video"` di `scenes.json` tanpa Anda perlu mengeditnya manual!
 > - Anda juga bisa langsung mengimpor file aset yang baru diunduh dari folder `Downloads` dengan satu perintah:
 >   ```bash
 >   npm run sync:import

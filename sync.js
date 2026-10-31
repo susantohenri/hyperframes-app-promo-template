@@ -64,8 +64,8 @@ if (shouldImportDownloads) {
 
     const downloadFiles = fs.readdirSync(downloadsDir);
     // Patterns for Google Flow / project assets:
-    // intro_*.mp4, outro_*.mp4, [0-9]_*.jpg, [0-9].wav, etc.
-    const assetPattern = /^(?:intro.*|outro.*|\d+.*)\.(mp4|webm|jpg|jpeg|png|webp|wav|mp3)$/i;
+    // intro_*.mp4, outro_*.mp4, cta_*.mp4, hook_*.mp4, scene-N.*, [0-9]_*.jpg, [0-9].mp4, [0-9].wav, etc.
+    const assetPattern = /^(?:intro.*|outro.*|cta.*|hook.*|scene[-_]?\d+.*|\d+.*)\.(mp4|webm|mov|mkv|jpg|jpeg|png|webp|wav|mp3|ogg|m4a)$/i;
     let importedCount = 0;
     downloadFiles.forEach(f => {
       if (assetPattern.test(f)) {
@@ -232,7 +232,7 @@ function getDuration(filePath) {
   }
 }
 
-// Smart Asset Resolver with Google Flow suffix & wildcard support
+// Smart Asset Resolver supporting images & videos (Google Flow suffix & wildcard support)
 function resolveAsset(rawSrc, sceneIndex, sceneCount, sceneType = 'image') {
   if (!fs.existsSync(assetsDir)) return rawSrc;
   const files = fs.readdirSync(assetsDir);
@@ -253,27 +253,10 @@ function resolveAsset(rawSrc, sceneIndex, sceneCount, sceneType = 'image') {
   const ext = path.extname(base).toLowerCase();
   const nameOnly = path.basename(base, ext).toLowerCase();
 
-  // 1. Direct match if file exists exactly
-  if (base && fs.existsSync(path.join(assetsDir, base))) {
-    return `assets/${base}`;
-  }
-
   const isFirst = (sceneIndex === 0);
   const isLast = (sceneIndex === sceneCount - 1);
 
-  // 2. Intro video match
-  if (nameOnly.includes('intro') || (isFirst && sceneType === 'video')) {
-    const introFile = pickNewest(files.filter(f => /^intro(?:[-_.].*)?\.(mp4|webm|mov|mkv)$/i.test(f)));
-    if (introFile) return `assets/${introFile}`;
-  }
-
-  // 3. Outro video match
-  if (nameOnly.includes('outro') || (isLast && sceneType === 'video')) {
-    const outroFile = pickNewest(files.filter(f => /^outro(?:[-_.].*)?\.(mp4|webm|mov|mkv)$/i.test(f)));
-    if (outroFile) return `assets/${outroFile}`;
-  }
-
-  // 4. Numbered match (e.g. 1, 2, 3...)
+  // Target scene number (e.g. 1, 2, 3...)
   let targetNum = null;
   const numMatch = nameOnly.match(/(\d+)/);
   if (numMatch) {
@@ -282,16 +265,51 @@ function resolveAsset(rawSrc, sceneIndex, sceneCount, sceneType = 'image') {
     targetNum = String(sceneIndex + 1);
   }
 
-  if (targetNum) {
-    // Media file starting with targetNum (e.g. 2_c6a13590.jpg, 2.jpg)
-    const numMediaRegex = new RegExp(`^${targetNum}(?:[-_.].*)?\\.(jpg|jpeg|png|webp|mp4|webm)$`, 'i');
-    const matchedMedia = pickNewest(files.filter(f => numMediaRegex.test(f)));
-    if (matchedMedia) return `assets/${matchedMedia}`;
+  const validExts = '(?:mp4|webm|mov|mkv|jpg|jpeg|png|webp)';
+  const candidates = [];
 
-    // Fallback: scene-N or scene_N
-    const sceneNamedRegex = new RegExp(`^scene[-_]?${targetNum}(?:[-_.].*)?\\.(jpg|jpeg|png|webp|mp4|webm)$`, 'i');
-    const matchedSceneNamed = pickNewest(files.filter(f => sceneNamedRegex.test(f)));
-    if (matchedSceneNamed) return `assets/${matchedSceneNamed}`;
+  // 1. Files starting with targetNum (e.g. 1.mp4, 2_c6a13590.mp4, 3.jpg, 3_0e0a3a17.jpg)
+  const numMediaRegex = new RegExp(`^${targetNum}(?:[-_.].*)?\\.${validExts}$`, 'i');
+  // 2. scene-N or scene_N (e.g. scene-2.mp4, scene_3.jpg)
+  const sceneNamedRegex = new RegExp(`^scene[-_]?${targetNum}(?:[-_.].*)?\\.${validExts}$`, 'i');
+
+  // 3. Intro / hook matching (for scene 1 or if name contains intro/hook)
+  const isIntroCandidate = isFirst || nameOnly.includes('intro') || nameOnly.includes('hook');
+  const introRegex = new RegExp(`^(?:intro|hook)(?:[-_.].*)?\\.${validExts}$`, 'i');
+
+  // 4. Outro / cta matching (for last scene or if name contains outro/cta)
+  const isOutroCandidate = isLast || nameOnly.includes('outro') || nameOnly.includes('cta') || nameOnly.includes('final');
+  const outroRegex = new RegExp(`^(?:outro|cta|final)(?:[-_.].*)?\\.${validExts}$`, 'i');
+
+  files.forEach(f => {
+    if (numMediaRegex.test(f) || sceneNamedRegex.test(f)) {
+      candidates.push(f);
+      return;
+    }
+    if (isIntroCandidate && introRegex.test(f)) {
+      candidates.push(f);
+      return;
+    }
+    if (isOutroCandidate && outroRegex.test(f)) {
+      candidates.push(f);
+      return;
+    }
+    // Also include exact file if it matches base
+    if (base && f.toLowerCase() === base.toLowerCase()) {
+      candidates.push(f);
+      return;
+    }
+  });
+
+  if (candidates.length > 0) {
+    const uniqueCandidates = [...new Set(candidates)];
+    const chosen = pickNewest(uniqueCandidates);
+    if (chosen) return `assets/${chosen}`;
+  }
+
+  // Fallback: direct match if file exists exactly
+  if (base && fs.existsSync(path.join(assetsDir, base))) {
+    return `assets/${base}`;
   }
 
   return rawSrc;
@@ -432,6 +450,23 @@ if (config.scenes && Array.isArray(config.scenes)) {
       modified = true;
     }
 
+    // Auto-detect and sync scene.type based on media file extension (video vs image)
+    const currentMedia = scene.mediaSrc || resolvedMedia || originalMedia;
+    if (currentMedia) {
+      const ext = path.extname(currentMedia).toLowerCase();
+      const isVideo = ['.mp4', '.webm', '.mov', '.mkv'].includes(ext);
+      const isImage = ['.jpg', '.jpeg', '.png', '.webp', '.gif', '.svg'].includes(ext);
+      if (isVideo && scene.type !== 'video') {
+        console.log(`[sync] Scene ${i + 1} (${scene.id}): Terdeteksi video (${path.basename(currentMedia)}) -> Auto-switched type: "${scene.type}" -> "video"`);
+        scene.type = 'video';
+        modified = true;
+      } else if (isImage && scene.type !== 'image') {
+        console.log(`[sync] Scene ${i + 1} (${scene.id}): Terdeteksi gambar (${path.basename(currentMedia)}) -> Auto-switched type: "${scene.type}" -> "image"`);
+        scene.type = 'image';
+        modified = true;
+      }
+    }
+
     // 2. Auto-resolve Audio (TTS wav files)
     const originalAudio = scene.audioSrc;
     const resolvedAudio = resolveAudio(originalAudio, i);
@@ -441,7 +476,8 @@ if (config.scenes && Array.isArray(config.scenes)) {
       modified = true;
     }
 
-    // 3. Auto-detect audio duration if audio file exists
+    // 3. Auto-detect duration: VO audio takes precedence (+0.35s natural breath padding), video media fallback
+    let detectedDur = null;
     if (scene.audioSrc) {
       const audioDur = getDuration(scene.audioSrc);
       if (audioDur) {
@@ -451,11 +487,25 @@ if (config.scenes && Array.isArray(config.scenes)) {
           modified = true;
         }
         // Add +0.35s natural breath padding for visual scene
-        const targetDur = Math.round((audioDur + 0.35) * 10) / 10;
-        if (Math.abs(targetDur - dur) > 0.05) {
-          console.log(`[sync] Scene ${i + 1} (${scene.id}): Audio ${audioDur.toFixed(2)}s -> Auto duration: ${targetDur.toFixed(1)}s (was ${dur}s)`);
-          dur = targetDur;
-          scene.durationInSeconds = targetDur;
+        detectedDur = Math.round((audioDur + 0.35) * 10) / 10;
+        if (Math.abs(detectedDur - dur) > 0.05) {
+          console.log(`[sync] Scene ${i + 1} (${scene.id}): Audio ${audioDur.toFixed(2)}s -> Auto duration: ${detectedDur.toFixed(1)}s (was ${dur}s)`);
+          dur = detectedDur;
+          scene.durationInSeconds = detectedDur;
+          modified = true;
+        }
+      }
+    }
+
+    // Fallback: if audio VO is missing or unmeasurable and scene is a video clip, sync with video duration
+    if (!detectedDur && scene.type === 'video' && scene.mediaSrc) {
+      const videoDur = getDuration(scene.mediaSrc);
+      if (videoDur) {
+        const targetVideoDur = Math.round(videoDur * 10) / 10;
+        if (Math.abs(targetVideoDur - dur) > 0.05) {
+          console.log(`[sync] Scene ${i + 1} (${scene.id}): Video ${videoDur.toFixed(2)}s -> Auto duration: ${targetVideoDur.toFixed(1)}s (was ${dur}s)`);
+          dur = targetVideoDur;
+          scene.durationInSeconds = targetVideoDur;
           modified = true;
         }
       }
