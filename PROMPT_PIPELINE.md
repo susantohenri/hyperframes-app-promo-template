@@ -35,11 +35,28 @@ G3 — Pilih hook
 
 "Segmen: [X]. Berikut shortlist hook yang benar-benar lolos quality gate, 3 finalis terbaik + skor, dan rekomendasi hook utama. Kandidat yang tidak lolos tidak ditampilkan. Pilih nomor berapa, atau bagian mana yang ingin direvisi?"
 
-Setelah user pilih → langsung tentukan **Ad Voice Archetype**, tulis naskah 7–9 scene lengkap dengan **Vocal Direction, Teks Fonetik/Prosodi TTS**, rekomendasi **Voice ID Google AI Studio & Profil Seed-VC**, serta **System Prompt AI Studio TTS**, tampilkan tabel, berhenti di G4.
+Setelah user pilih → langsung tentukan **Ad Voice Archetype**, tulis naskah 7–9 scene lengkap dengan **Vocal Direction, Teks Fonetik/Prosodi TTS**, rekomendasi **Voice ID Google AI Studio & Profil Seed-VC (opsional)**, panduan **Filter Background Music (BGM) YouTube Audio Library (opsional)**, serta **System Prompt AI Studio TTS**, tampilkan tabel, berhenti di G4.
 
 G4 — Setujui naskah
 
-"Hook: [X]. Profil Suara Rekomendasi: Archetype [Nama Archetype, misal: The UGC Bestie / The Warm & Serene Mentor / The High-Energy Hype] — Google AI Studio Voice: [Puck / Aoede / Kore / Charon / Fenrir] + Seed-VC Profile: [najwa / jokowi / deddy / default] karena [alasan kecocokan audiens & niche aplikasi]. Berikut naskah [M] scene (total [N] detik) dengan arahan vokal emosional & teks fonetik TTS, serta System Prompt Google AI Studio siap pakai. Sudah pas, atau ada yang mau diubah sebelum saya buat visual & prompt Google Flow?"
+"Hook: [X]. 
+Profil Suara Rekomendasi: Archetype [Nama Archetype, misal: The UGC Bestie / The Warm & Serene Mentor / The High-Energy Hype] — Google AI Studio Voice: [Puck / Aoede / Kore / Charon / Fenrir] + Profil Seed-VC: [najwa / jokowi / deddy / default] (opsional) karena [alasan kecocokan audiens & niche aplikasi].
+
+Panduan Musik Latar Belakang (BGM Opsional):
+*Sifatnya opsional seperti halnya profil Seed-VC (secara default video dibuat tanpa BGM agar narasi vokal terdengar jernih). Jika ingin menambahkan musik latar:*
+1. Buka YouTube Studio Audio Library: https://studio.youtube.com/channel/UCeiow3zIp-vEfyOturM7ojg/music (Masuk ke tab 'Free music')
+2. Pasang Filter Pencarian:
+   - Mood: [Mood rekomendasi, misal: Calm / Peaceful / Dramatic / Happy]
+   - Genre: [Genre rekomendasi, misal: Ambient / Cinematic / Acoustic / Dance & Electronic]
+   - License type: 'Attribution not required' (wajib, agar bebas dipakai tanpa perlu menulis kredit di deskripsi)
+3. Rekomendasi Artis / Track Contoh: [Sebutkan 2–3 nama artis atau contoh track yang cocok di YouTube Audio Library]
+4. Cara Unduh & Penempatan File:
+   - Klik tombol 'Download' di YouTube Studio pada trek pilihan.
+   - Simpan file ke folder: `assets/`
+   - Beri nama persis: `bgm.mp3` (path: `assets/bgm.mp3`).
+*(Jika tidak ingin memakai BGM dan ingin fokus pada suara narator saja, lewati langkah ini — konfigurasi bawaan scenes.json adalah `"bgmSrc": ""`)*.
+
+Berikut naskah [M] scene (total [N] detik) dengan arahan vokal emosional & teks fonetik TTS, serta System Prompt Google AI Studio siap pakai. Sudah pas, atau ada yang mau diubah sebelum saya buat visual & prompt Google Flow?"
 
 Setelah setuju → langsung keluarkan 3 Flow Ingredients + prompt visual (gambar/video) scene 2–4, berhenti di QC-1.
 
@@ -402,6 +419,29 @@ Delivery Guidelines:
 
 Per scene audio tetap disimpan sebagai file terpisah (`assets/1.wav`, `assets/2.wav`, dst.) agar `sync.js` dapat membaca durasi gelombang suara aktual secara presisi.
 
+### 1.9 Panduan Background Music (BGM) YouTube Audio Library (Opsional)
+- **Status BGM:** **OPSIONAL** (sama seperti halnya konversi profil suara Seed-VC). Secara *default*, proyek video dibuat **tanpa BGM** (`"bgmSrc": ""`) agar pengguna bisa fokus penuh pada kejelasan pesan dan artikulasi suara narator.
+- **Kapan Menggunakan BGM:** Hanya gunakan jika pengguna menginginkan *audio bed* / ritme latar belakang lembut untuk memperkaya estetika dan emosi visual tanpa menabrak frekuensi suara narasi.
+- **Sumber Resmi Bebas Hak Cipta:** [YouTube Studio Audio Library](https://studio.youtube.com/channel/UCeiow3zIp-vEfyOturM7ojg/music) (Tab *Free music*). Sumber audio resmi dari Google/YouTube yang terjamin bebas klaim copyright, aman untuk monetisasi, dan berformat MP3 berkualitas tinggi.
+- **Katalog Rekomendasi Filter YouTube Audio Library per Ad Voice Archetype:**
+
+| Ad Voice Archetype | Rekomendasi Mood YouTube | Rekomendasi Genre YouTube | Contoh Artis / Track Favorit |
+| :--- | :--- | :--- | :--- |
+| **1. The UGC Bestie** | *Happy*, *Bright*, *Funky* | *Pop*, *R&B & Soul*, *Hip Hop* | Dan Henig, Otis McDonald |
+| **2. The High-Energy Hype Creator** | *Dramatic*, *Dark*, *Angry* | *Dance & Electronic*, *Rock*, *Hip Hop* | NEFFEX, Patrick Patrikios |
+| **3. The Sharp & Critical Broadcaster** | *Dramatic*, *Serious*, *Mysterious* | *Cinematic*, *Ambient* | Doug Maxwell, Godmode |
+| **4. The Warm & Serene Mentor** | *Calm*, *Peaceful*, *Meditative* | *Ambient*, *Cinematic*, *World* | Jesse Gallagher, Asher Fulero |
+| **5. The Confident Tech Specialist** | *Inspirational*, *Bright* | *Dance & Electronic*, *Ambient* | Density & Time, DivKid |
+
+- **Filter Lisensi Wajib:**
+  Selalu instruksikan pengguna untuk memilih filter **License type: Attribution not required** agar bebas digunakan secara instan tanpa perlu mencantumkan teks atribusi ke deskripsi video.
+- **Lokasi Unduhan & Aturan Naming File Wajib:**
+  - Tempat mengunduh: Buka link [Audio library - YouTube Studio](https://studio.youtube.com/channel/UCeiow3zIp-vEfyOturM7ojg/music) -> Tab *Free music* -> Klik ikon panah/tombol *Download*.
+  - Folder penyimpanan wajib: `assets/`
+  - Nama file wajib: `bgm.mp3` (Path lengkap: `assets/bgm.mp3`).
+  - Cara aktivasi di konfigurasi: Jika pengguna meletakkan file `assets/bgm.mp3`, ubah properti di `scenes.json` dari `"bgmSrc": ""` menjadi `"bgmSrc": "assets/bgm.mp3"`.
+  - Volume ducking otomatis: Nilai `"bgmVolume"` diatur di rentang `0.12` – `0.15` (sangat lembut) agar frekuensi vokal narator tetap dominan dan jernih.
+
 ## BAGIAN 2 — PROMPT GAMBAR GOOGLE FLOW (IMAGEN)
 
 - Aturan Natural language, tanpa flag.
@@ -709,10 +749,10 @@ Contoh struktur (bukan jumlah scene final):
       "variationMode": "editorial-choice"
     },
     "audio": {
-      "bgmSrc": "assets/bgm.mp3",
+      "bgmSrc": "",
       "bgmVolume": 0.15,
       "voiceoverSrc": "",
-      "voiceProfile": "jokowi"
+      "voiceProfile": "default"
     }
   },
   "scenes": [
@@ -889,6 +929,8 @@ Auto-Sync Cerdas (`sync.js`):
 
 audioSrc: assets/1.wav, dst (voiceover Google AI Studio TTS).
 
+bgmSrc: "" (default kosong/opsional seperti profil Seed-VC; diisi "assets/bgm.mp3" hanya jika pengguna mengunduh trek dari YouTube Audio Library).
+
 soundDesign: assets/sfx/<name>.mp3 (katalog 21 SFX bawaan HyperFrames di 7.8, sync.js mendukung cue singkat dan auto-duration).
 
 durationInSeconds: budget durasi scene; sync.js sinkron otomatis dengan durasi WAV aktual (+0.35s natural breath padding) atau durasi video jika tanpa VO.
@@ -903,7 +945,7 @@ Jumlah scene final 7–9.
 
 Setelah audiens disepakati, sajikan:
 
-Naskah: maksimal 3 kandidat hook berkualitas yang lulus quality gate + skor (jangan isi kuota dengan kandidat lemah), hook utama, pemilihan Ad Voice Archetype, tabel naskah 7–9 scene (30–55 detik) lengkap dengan Vocal Direction emosional & teks fonetik/prosodi TTS, rekomendasi Voice ID Google AI Studio & profil Seed-VC, serta System Prompt Google AI Studio TTS siap pakai.
+Naskah: maksimal 3 kandidat hook berkualitas yang lulus quality gate + skor (jangan isi kuota dengan kandidat lemah), hook utama, pemilihan Ad Voice Archetype, tabel naskah 7–9 scene (30–55 detik) lengkap dengan Vocal Direction emosional & teks fonetik/prosodi TTS, rekomendasi Voice ID Google AI Studio & profil Seed-VC (opsional), panduan filter BGM YouTube Audio Library (opsional: mood, genre, link download, dan instruksi penempatan assets/bgm.mp3), serta System Prompt Google AI Studio TTS siap pakai.
 
 Visual: 3 Ingredients + prompt visual (Gambar Imagen atau Video Veo 3.1 sesuai kebutuhan scene) + prompt CTA (tanpa flag Midjourney).
 

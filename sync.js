@@ -577,9 +577,34 @@ if (fs.existsSync(indexPath)) {
   });
 
   // 3. Background Music (BGM)
-  if (config.project?.audio?.bgmSrc && fs.existsSync(path.join(__dirname, config.project.audio.bgmSrc))) {
-    const bgmVol = config.project.audio.bgmVolume || 0.15;
-    audioElementsHtml += `\n        <audio id="bgm-audio" src="${config.project.audio.bgmSrc}" data-start="0.00" data-duration="${currentStart.toFixed(2)}" data-volume="${bgmVol}" data-track-index="0"></audio>`;
+  let bgmSrc = config.project?.audio?.bgmSrc;
+
+  // Cek jika ada argumen CLI --no-bgm
+  const disableBgm = args.includes('--no-bgm');
+
+  if (disableBgm) {
+    console.log('[sync:bgm] ℹ️ Flag --no-bgm aktif: BGM dinonaktifkan.');
+    bgmSrc = '';
+  } else if (!bgmSrc || bgmSrc === '' || bgmSrc === 'default') {
+    // Auto-detect file bgm di folder assets jika ada
+    const bgmCandidates = ['bgm.mp3', 'bgm.wav', 'bgm.m4a', 'bgm.aac', 'bgm.ogg'];
+    const found = bgmCandidates.find(f => fs.existsSync(path.join(assetsDir, f)));
+    if (found) {
+      bgmSrc = `assets/${found}`;
+      if (!config.project) config.project = {};
+      if (!config.project.audio) config.project.audio = {};
+      config.project.audio.bgmSrc = bgmSrc;
+      modified = true;
+      console.log(`[sync:bgm] 🎵 Terdeteksi '${bgmSrc}' di folder assets! Mengaktifkan BGM otomatis.`);
+    }
+  }
+
+  if (bgmSrc && !['none', 'off', 'false'].includes(bgmSrc.toLowerCase()) && fs.existsSync(path.join(__dirname, bgmSrc))) {
+    const bgmVol = config.project?.audio?.bgmVolume !== undefined ? config.project.audio.bgmVolume : 0.15;
+    audioElementsHtml += `\n        <audio id="bgm-audio" src="${bgmSrc}" data-start="0.00" data-duration="${currentStart.toFixed(2)}" data-volume="${bgmVol}" data-track-index="0"></audio>`;
+    console.log(`[sync:bgm] 🎵 Background Music aktif: '${bgmSrc}' (Volume: ${bgmVol}, Durasi: ${currentStart.toFixed(2)}s)`);
+  } else {
+    console.log(`[sync:bgm] ℹ️ Background Music non-aktif (opsional). Taruh file 'bgm.mp3' di folder assets/ untuk mengaktifkannya.`);
   }
 
   if (audioElementsHtml) {
