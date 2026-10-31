@@ -11,6 +11,7 @@ Template ini didesain sebagai **Universal Player**: Anda **tidak perlu mengoding
 ```text
 hyperframes-app-promo-template/
 ├── assets/                  <-- Tempat menyimpan seluruh aset (gambar, audio, video)
+│   ├── bgm.mp3              <-- (Opsional) Musik latar belakang dari YouTube Audio Library
 │   └── .gitkeep
 ├── index.html               <-- Master Composition (Universal Dynamic Player)
 ├── scenes.json              <-- Konfigurasi data video (naskah, durasi, headline, badge)
@@ -65,6 +66,9 @@ Buat aset-aset tersebut menggunakan tool AI masing-masing, lalu simpan ke folder
     * `assets/1.mp4` atau `assets/intro.mp4` (atau `intro_[suffix].mp4`)
     * `assets/2.mp4`, `assets/3.mp4`, `assets/4.mp4`, dst. (atau `3_[suffix].mp4`)
     * `assets/outro.mp4` atau `assets/7.mp4` (atau `outro_[suffix].mp4`)
+* **Musik Latar Belakang / BGM (YouTube Audio Library — Opsional):**
+  * Unduh musik bebas royalti dari [Audio library - YouTube Studio](https://studio.youtube.com/channel/UCeiow3zIp-vEfyOturM7ojg/music) -> Simpan sebagai:
+    * `assets/bgm.mp3` *(Sifatnya opsional; jika dilewati, video tetap ter-render mulus tanpa BGM)*.
 
 > 💡 **Fitur Deteksi Cerdas & Auto-Type `sync.js`:**
 > - File hasil unduhan Google Flow yang memiliki suffix acak (seperti `3_c6a13590.mp4`, `intro_04077952.mp4`, dan `2_c6a13590.jpg`) **TIDAK PERLU DI-RENAME!** Script `sync.js` akan otomatis mencocokkan file tersebut ke timeline scene.
@@ -130,7 +134,7 @@ Template ini terintegrasi langsung dengan **Seed-VC (Zero-Shot Voice Conversion)
    Tentukan profil tokoh di bagian `project.audio.voiceProfile` (atau biarkan dipilih otomatis oleh AI saat generate naskah di `PROMPT_PIPELINE.md`):
    ```json
    "audio": {
-     "bgmSrc": "assets/bgm.mp3",
+     "bgmSrc": "",
      "bgmVolume": 0.15,
      "voiceProfile": "najwa"
    }
@@ -188,11 +192,108 @@ assets/voices/
 
 ---
 
+## 🎵 Background Music (BGM) YouTube Audio Library (Opsional)
+
+Sama seperti halnya konversi suara Seed-VC, musik latar belakang (BGM) di template ini **bersifat opsional**. Secara *default*, video dibuat **tanpa BGM** (`"bgmSrc": ""`) agar artikulasi narasi vokal terdengar jernih dan fokus.
+
+Jika Anda ingin memberikan musik latar untuk memperkuat atmosfer video:
+
+### 1. Sumber Resmi & Tautan Download
+Gunakan koleksi resmi yang dijamin bebas hak cipta dan aman untuk monetisasi:
+👉 **[YouTube Studio Audio Library](https://studio.youtube.com/channel/UCeiow3zIp-vEfyOturM7ojg/music)** (Buka menu *Audio library* di panel kiri Studio YouTube, lalu klik tab *Free music*).
+
+---
+
+### 2. Panduan Filter YouTube Studio
+Gunakan filter pencarian di YouTube Studio sesuai nuansa video aplikasi Anda:
+* **License type (Wajib):** Centang **"Attribution not required"** agar Anda bebas menggunakan lagu tanpa kewajiban mencantumkan kredit artis di deskripsi video.
+* **Mood:** Sesuaikan dengan *Ad Voice Archetype* / tema aplikasi:
+  * *Calm* / *Peaceful* : Sangat pas untuk aplikasi religi/ibadah, edukasi tenang, parenting, meditasi.
+  * *Inspirational* / *Bright* : Pas untuk aplikasi produktivitas, utilitas, finansial, motivasi.
+  * *Dramatic* / *Dark* : Pas untuk game, fitness, atau adegan hook dengan kontras tinggi.
+  * *Happy* / *Funky* : Pas untuk aplikasi gaya hidup, belanja, sosial kasual.
+* **Genre:** *Ambient*, *Cinematic*, *Acoustic*, *World*, *Dance & Electronic*.
+* **Contoh Artis / Track Favorit di YouTube Audio Library:**
+  * **Jesse Gallagher** (koleksi ambient dan instrumen organik yang sangat damai)
+  * **Asher Fulero** (soundscape tenang dan piano lembut)
+  * **Dan Henig** (akustik santai / mellow)
+  * **Doug Maxwell** (sinematik atmosferik)
+
+---
+
+### 3. Cara Download & Aturan Penamaan File
+1. Klik ikon **Download** pada lagu pilihan Anda di YouTube Studio.
+2. Pindahkan file MP3 tersebut ke folder:
+   ```text
+   assets/
+   ```
+3. Beri nama file persis:
+   ```text
+   assets/bgm.mp3
+   ```
+   *(Hanya file bernama `bgm.mp3` atau `bgm.wav` di folder `assets/` yang akan otomatis terhubung).*
+
+---
+
+### 4. Auto-Detect Cerdas `sync.js` (Tanpa Edit JSON Manual)
+Anda **tidak perlu mengedit konfigurasi JSON secara manual**. Script `sync.js` sudah dilengkapi deteksi otomatis:
+* Begitu file `assets/bgm.mp3` terdeteksi saat menjalankan `npm run sync`, script akan langsung mengaktifkannya ke timeline video dan memperbarui `scenes.json`.
+* Terminal akan menampilkan status konfirmasi:
+  ```text
+  [sync:bgm] 🎵 Terdeteksi 'assets/bgm.mp3' di folder assets! Mengaktifkan BGM otomatis.
+  [sync:bgm] 🎵 Background Music aktif: 'assets/bgm.mp3' (Volume: 0.15, Durasi: 45.30s)
+  ```
+* Jika file belum ada, terminal menampilkan status ramah:
+  ```text
+  [sync:bgm] ℹ️ Background Music non-aktif (opsional). Taruh file 'bgm.mp3' di folder assets/ untuk mengaktifkannya.
+  ```
+
+---
+
+### 5. Panduan Pengaturan Nilai Volume (0.0 s.d. 1.0)
+Volume musik latar diatur melalui properti `"bgmVolume"` di dalam [`scenes.json`](./scenes.json):
+
+```json
+"audio": {
+  "bgmSrc": "assets/bgm.mp3",
+  "bgmVolume": 0.15,
+  "voiceoverSrc": "",
+  "voiceProfile": "default"
+}
+```
+
+Gunakan skala nilai berikut saat menyetel volume:
+* **`0.10` – `0.15` (Standar Rekomendasi):** Tingkat volume paling ideal dan seimbang. Musik latar terdengar jelas dan nyaman tanpa menabrak kejelasan vokal narator (Voiceover).
+* **`0.05` – `0.08` (Sangat Lembut / Subliminal):** Musik terdengar sangat samar di latar belakang. Cocok jika lagu yang dipilih memiliki ketukan/beat drum yang agak ramai.
+* **`0.20` – `0.30` (Cukup Kencang):** Musik lebih dominan. Hati-hati agar tidak menenggelamkan frekuensi vokal narator.
+* **`0.0`:** Mute (suara musik mati total).
+
+> 💡 **Penting:** Setiap kali Anda mengubah angka `"bgmVolume"` di `scenes.json`, jalankan perintah `npm run sync` agar volume baru langsung diterapkan ke komposisi video.
+
+---
+
+### 6. Cara Menonaktifkan BGM Sementara
+Jika file `assets/bgm.mp3` sudah ada di folder tetapi Anda ingin me-render video tanpa musik latar (hanya suara narator VO):
+* Jalankan flag CLI:
+  ```bash
+  npm run sync -- --no-bgm
+  ```
+* Atau ubah nilai di `scenes.json`:
+  ```json
+  "bgmSrc": "none"
+  ```
+
+---
+
 ## 🛠️ Ringkasan Command (Cheat Sheet)
 
 | Perintah | Deskripsi |
 |---|---|
 | `npm run dev` | Menjalankan studio preview interaktif di browser. |
+| `npm run sync` | Menyinkronkan durasi audio aktual, resolusi aset, dan BGM. |
+| `npm run sync:import` | Mengimpor aset terbaru dari folder `Downloads` lalu menyinkronkan timeline. |
+| `npm run sync -- --no-bgm` | Menyinkronkan video dengan menonaktifkan BGM sementara. |
+| `npm run sync -- --voice <tokoh>` | Menyinkronkan timeline dan mengonversi suara ke tokoh tertentu (misal: `najwa`, `jokowi`). |
 | `npm run render` | Merender komposisi menjadi file `output.mp4`. |
 | `npm run render:hq` | Merender kualitas tertinggi (CRF rendah) ke `output_hq.mp4`. |
 | `npm run check` | Memeriksa linting, kontras teks, layout overflow, dan sinkronisasi audio. |
