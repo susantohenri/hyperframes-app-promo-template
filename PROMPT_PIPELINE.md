@@ -35,11 +35,11 @@ G3 — Pilih hook
 
 "Segmen: [X]. Berikut shortlist hook yang benar-benar lolos quality gate, 3 finalis terbaik + skor, dan rekomendasi hook utama. Kandidat yang tidak lolos tidak ditampilkan. Pilih nomor berapa, atau bagian mana yang ingin direvisi?"
 
-Setelah user pilih → langsung tulis naskah 7–9 scene + **TTS** + rekomendasi **Profil Suara Publik Figur (Seed-VC)**, tampilkan tabel, berhenti di G4.
+Setelah user pilih → langsung tentukan **Ad Voice Archetype**, tulis naskah 7–9 scene lengkap dengan **Vocal Direction, Teks Fonetik/Prosodi TTS**, rekomendasi **Voice ID Google AI Studio & Profil Seed-VC**, serta **System Prompt AI Studio TTS**, tampilkan tabel, berhenti di G4.
 
 G4 — Setujui naskah
 
-"Hook: [X]. Profil Suara Rekomendasi: [voiceProfile - misal: najwa / jokowi / deddy / default] karena [alasan kecocokan dengan audiens]. Berikut naskah [M] scene, total [N] detik + instruksi **TTS**. Sudah pas, atau ada yang mau diubah sebelum saya buat visual & prompt Google Flow?"
+"Hook: [X]. Profil Suara Rekomendasi: Archetype [Nama Archetype, misal: The UGC Bestie / The Warm & Serene Mentor / The High-Energy Hype] — Google AI Studio Voice: [Puck / Aoede / Kore / Charon / Fenrir] + Seed-VC Profile: [najwa / jokowi / deddy / default] karena [alasan kecocokan audiens & niche aplikasi]. Berikut naskah [M] scene (total [N] detik) dengan arahan vokal emosional & teks fonetik TTS, serta System Prompt Google AI Studio siap pakai. Sudah pas, atau ada yang mau diubah sebelum saya buat visual & prompt Google Flow?"
 
 Setelah setuju → langsung keluarkan 3 Flow Ingredients + prompt visual (gambar/video) scene 2–4, berhenti di QC-1.
 
@@ -318,60 +318,89 @@ Tampilkan:
 Jangan tampilkan daftar kandidat mentah, kandidat yang gagal, atau analisis internal yang panjang. Berikan alasan seleksi yang dapat ditindaklanjuti, bukan chain-of-thought.
 ## BAGIAN 1 — NASKAH VOICEOVER DAN GOOGLE AI STUDIO TTS
 
-- Struktur 7–9 scene Hook — menarik perhatian
+### 1.1 Filosofi Vokal: Video Iklan adalah Emotional Arc (Rollercoaster Emosi)
+Naskah video promosi 30–55 detik (TikTok/Reels/Shorts) **BUKAN** pembacaan artikel atau podcast datar. Agar video terasa hidup, kreatif, tidak monoton, dan benar-benar menjual (*high-converting*), voiceover wajib memiliki kontras dinamika nada, jeda napas, dan pergeseran emosi dramatis di setiap babak (*scenePurpose*):
 
-Context — situasi audiens
+1. **`hook` (Scene 1):** *Shock / Provocative / Intense Curiosity* — Nada tinggi/menghentak, tempo cepat, *pattern interrupt* yang langsung mengunci telinga penonton dalam 0–2 detik pertama.
+2. **`context` (Scene 2):** *Relatable / Everyday Reality* — Nada obrolan santai, jujur, mengaitkan rutinitas sehari-hari (*"ini gue banget"*).
+3. **`problem` (Scene 3):** *Frustration / Overwhelm / Sigh* — Nada turun, tempo melambat, desah napas lelah/kesal (`[sigh]`), membangun empati frustrasi yang nyata.
+4. **`insight` (Scene 4):** *Aha! Moment / Eye-Opening / Whisper* — Tempo melambat sesaat, intonasi misterius/penasaran, jeda suspens hening sebelum membongkar asumsi yang keliru.
+5. **`solution` (Scene 5):** *Discovery / Confident & Crisp / Dynamic Flow* — Nada naik kembali, artikulasi renyah, energi antusias membuktikan kemudahan solusi aplikasi.
+6. **`payoff` (Scene 6):** *Relief / Satisfaction / "Audible Smile"* — Nada hangat, lega, terdengar senyuman (*you can hear the smile in the voice*), kepuasan setelah masalah tuntas.
+7. **`cta` (Scene 7):** *High-Energy Urgency / Direct Invitation* — Tegas, mengajak, antusias tinggi tanpa terdengar memaksa (*"Download sekarang di Google Play!"*).
 
-Tension / Problem — frustrasi/kesalahan
+### 1.2 Katalog 5 Ad Voice Archetypes (Kesesuaian Niche Aplikasi)
+AI wajib mengidentifikasi dan memilihkan **1 Archetype Suara Iklan** yang paling pas dengan kategori aplikasi sebelum menulis naskah:
 
-Core Insight — pembalik asumsi
+| Ad Voice Archetype | Karakteristik Vokal | Cocok untuk Kategori Aplikasi | Rekomendasi Voice Google AI Studio | Rekomendasi Profil Seed-VC |
+| :--- | :--- | :--- | :--- | :--- |
+| **1. The UGC Bestie (Teman Curhat)** | Kasual, santai, ramah, nada teman ngobrol sebaya, jujur, ekspresif | Lifestyle, habit tracker, budgeting/keuangan pribadi, utilitas harian, belanja hemat | `Puck` (Pria muda) / `Kore` (Wanita ramah) | `default` atau `jokowi` (santai/merakyat) |
+| **2. The High-Energy Hype Creator** | Cepat, berenergi tinggi, hook menghentak, ritmik, antusias | Gaming, fitness/workout, promo diskon/voucher, tools produktivitas kilat, aksi cepat | `Fenrir` (Pria maskulin punchy) / `Puck` (Pria energik) | `deddy` (tegas, bertenaga) |
+| **3. The Sharp & Critical Broadcaster** | Artikulatif, bernas, berwibawa, investigatif, membongkar kebiasaan keliru | Karir, edukasi, literasi investasi/finansial, produktivitas kerja profesional, kesehatan mental | `Aoede` (Wanita cerdas elegan) / `Charon` (Pria berwibawa) | `najwa` (kritis, tajam, terpercaya) |
+| **4. The Warm & Serene Mentor** | Tenang, menenangkan batin, bersahaja, membumi, tempo santai | Ibadah/religi (niat mandi wajib, jadwal sholat, doa), meditasi/tidur, parenting, keluarga | `Kore` (Wanita teduh) / `Charon` (Pria lembut tenang) | `jokowi` (bersahaja, tenang) atau `default` |
+| **5. The Confident Tech Specialist** | Modern, jelas, percaya diri, antusias terhadap inovasi dan efisiensi digital | AI assistant, scanner tools, automasi, developer/design utilities | `Puck` (Pria modern) / `Aoede` (Wanita profesional) | `najwa` atau `default` |
 
-Demo / Solution — cara aplikasi menjawab
+### 1.3 Aturan Bahasa Lisan & Partikel Rasa (Spoken Copywriting)
+- **DILARANG** menggunakan bahasa tulisan buku/artikel formal (misal: ❌ *"Apakah Anda mengalami kendala saat mencatat transaksi?"*). Ini penyebab utama suara AI terdengar kaku dan robotik.
+- **WAJIB** menggunakan tata bahasa percakapan lisan manusia asli (misal: ✅ *"Jujur deh... kamu sering ngerasa gak sih, baru gajian tapi uangnya udah ludes aja?"*).
+- **Wajib Menyisipkan Partikel Rasa Alami Indonesia:** Gunakan partikel *sih, kan, tuh, lho, dong, nih, deh* untuk memberi jiwa pada kalimat.
+- **Gunakan Kata Sambung Lisan:** Buka kalimat dengan kata lisan seperti *"Jujur ya...", "Nah,", "Bayangin deh...", "Masalahnya,"*.
+- **Anti-Sales Kaku:** Menghindari nada sales bukan berarti bersuara lemas/monoton! Tampilkan energi *Creator-native Authenticity* (antusiasme organik teman yang merekomendasikan solusi terbukti).
 
-Payoff — hasil/kepuasan
+### 1.4 Aturan Tanda Baca Prosodi & Anti-Eja (Engine-Safe TTS)
+- **Tanda Pisah (`—`):** Wajib dipakai untuk menciptakan *micro-pause* dramatis (0.3–0.4 detik) sebelum kata kunci, punchline, atau pembalik asumsi.
+- **Titik Tiga (`...`):** Dipakai untuk memberi jeda napas reflektif, nada ragu, atau helaan napas.
+- **Tanda Seru Tunggal (`!`):** Dipakai untuk menaikkan intonasi energi di akhir ajakan CTA.
+- **DILARANG HURUF KAPITAL PENUH (ALL CAPS):** Jangan menulis satu kata dengan huruf kapital semua di kolom *Teks Input TTS* (seperti `STOP` atau `DOWNLOAD`). Beberapa model TTS akan mengejanya huruf per huruf (*"es-te-o-pe"*). Gunakan tanda petik `'stop'` atau tag emosi `[tekanan tegas: stop]`.
 
-**CTA** — unduh di Google Play
+### 1.5 Panduan Pelafalan Fonetik (Phonetic Spelling Guide)
+Model TTS bahasa Indonesia di Google AI Studio sering salah melafalkan istilah asing atau nama aplikasi jika ditulis dengan ejaan bahasa Inggris standar. AI wajib menyajikan ejaan bunyi fonetik di kolom teks TTS:
+- *Download* → `"daun-lod"`
+- *Google Play Store* → `"Gugel Pley Stor"`
+- *App / Application* → `"aplikasi"`
+- *Feature* → `"fitur"`
+- *Dashboard / Tracker* → `"desh-bord / treker"`
+- *Streak / Habit* → `"strik / hebit"`
+- *Checklist* → `"cek-lis"`
+- *Nama Aplikasi Khusus (contoh: Ghusl)* → `"Gusul"` (sesuaikan ejaan agar dibaca mulus oleh engine TTS Indonesia).
 
-Untuk 8–9 scene: tambahkan objection, bukti visual, before–after, atau transisi konflik. Jangan menambah scene hanya untuk memperpanjang durasi.
+### 1.6 Durasi & Pacing Scene
+- Total durasi: 30–55 detik (7–9 scene).
+- Rasio kata: ~1,8 kata/detik Indonesia + 0,4 detik jeda napas di awal/akhir scene.
+- Durasi scene: Hook 4s, scene isi 4–7s, CTA 5–8s (selaras dengan batas render video Flow 4/6/8s).
+- Script `sync.js` akan mengukur durasi file audio `.wav` aktual dengan `ffprobe` dan otomatis menyinkronkan timeline `scenes.json`.
 
-- Durasi dan pacing Total 30–55 detik.
+### 1.7 Format Tabel Naskah Produksi Terpadu
+AI wajib menyajikan tabel naskah lengkap dengan kolom *Vocal Direction & Emosi* serta *Teks Input TTS (Fonetik & Prosodi)*:
 
-Rasio \~1,8 kata/detik Indonesia + 0,4s jeda napas.
+| Scene | scenePurpose | Durasi (s) | Vocal Direction & Emosi | Teks VO Layar (Subtitle) | Teks Input TTS (Fonetik & Prosodi) | Headline Overlay | Media Type | Flow Mode | Target File |
+| :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
+| 1 | hook | 4s | [curious & punchy, tempo cepat, pattern interrupt] | "Pernah gak sih ngerasa waktu 24 jam tuh kayak nguap gitu aja?" | "[curious] Pernah gak sih... ngerasa waktu 24 jam tuh—kayak nguap gitu aja?" | WAKTU CEPAT NGUAP? | Video | Frames to Video (4s) | 1.mp4 / intro.mp4 |
+| 2 | context | 5s | [relatable & casual, nada santai ngobrol] | "Baru aja buka laptop, eh tau-tau udah sore lagi." | "Baru aja buka laptop... eh, tau-tau udah sore lagi." | TAU-TAU UDAH SORE | Image | Imagen Still | 2.jpg |
+| 3 | problem | 6s | [exasperated sigh, tempo melambat, empati frustrasi] | "Rencana kerjaan numpuk, tapi gak ada satu pun yang selesai." | "[sigh] Rencana kerjaan numpuk... tapi gak ada 'satu pun' yang kelar." | KERJAAN NUMPUK KELAR NGGAK | Video | Text to Video (6s) | 3.mp4 |
+| 4 | insight | 5s | [aha-moment, whisper misterius, jeda hening] | "Padahal masalahnya bukan kamu males, tapi belum punya sistem." | "Padahal kuncinya cuma satu—masalahnya bukan kamu males, tapi belum punya sistem." | BUKAN KARENA MALES | Image | Imagen Still | 4.jpg |
+| 5 | solution | 7s | [confident & crisp, tempo dinamis, antusiasme percaya diri] | "Untung ada [Nama Aplikasi]. Sekali tap, semua jadwal otomatis rapi." | "Untung ada [Nama Aplikasi Fonetik]. Sekali 'tap'—semua jadwal langsung otomatis rapi!" | OTOMATIS RAPI SEKALI TAP | Video | Frames to Video (8s) | 5.mp4 |
+| 6 | payoff | 6s | [warm relief, audible smile, nada santai puas] | "Sekarang kerjaan beres lebih awal, istirahat pun tenang." | "Sekarang? Kerjaan beres lebih awal... istirahat pun jauh lebih tenang." | KERJAAN BERES ISTIRAHAT TENANG | Image | Imagen Still | 6.jpg |
+| 7 | cta | 5s | [high-energy urgency, ramah & mengajak] | "Download [Nama Aplikasi] sekarang di Google Play!" | "Yuk coba sekarang! Daun-lod [Nama Aplikasi Fonetik] di Gugel Pley Stor!" | DOWNLOAD DI GOOGLE PLAY | Video | Frames to Video (6s) | 7.mp4 / outro.mp4 |
 
-Rencanakan durasi per scene dalam 4/6/8 detik agar selaras Flow.
+*Catatan: Headline visual 3–5 kata, perkuat pesan inti. Media Type fleksibel (video atau gambar) untuk scene mana pun berdasarkan kebutuhan visual & emosi adegan.*
 
-Distribusi: Hook 4s, scene isi 4–7s, **CTA** 4–8s.
+### 1.8 Template System Prompt Siap Pakai untuk Google AI Studio TTS
+AI wajib menyajikan blok prompt siap-salin untuk dimasukkan ke bagian *System Instructions* di Google AI Studio saat pengguna meng-generate audio TTS:
 
-- Format tabel naskah:
-  | Scene | scenePurpose | Durasi (s) | Teks VO | Headline Overlay | Media Type | Flow Mode | Target File |
-  | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
-  | 1 | hook | 4s | ... | ... | Video | Frames to Video (4s) | 1.mp4 / intro.mp4 |
-  | 2 | context | 5s | ... | ... | Image | Imagen Still | 2.jpg |
-  | 3 | problem | 6s | ... | ... | Video / Image | Text to Video (6s) / Imagen | 3.mp4 / 3.jpg |
-  | 4 | insight | 5s | ... | ... | Image | Imagen Still | 4.jpg |
-  | 5 | solution | 7s | ... | ... | Video / Image | Frames to Video (8s) / Imagen | 5.mp4 / 5.jpg |
-  | 6 | payoff | 6s | ... | ... | Image / Video | Imagen / Veo (6s) | 6.jpg / 6.mp4 |
-  | 7 | cta | 5s | ... | ... | Video | Frames to Video (6s) | 7.mp4 / outro.mp4 |
+```text
+[SYSTEM INSTRUCTION GOOGLE AI STUDIO TTS]
+Act as an award-winning, highly expressive Indonesian commercial voiceover talent for a high-converting vertical video ad (TikTok/Reels).
+Target Language: Natural conversational Indonesian (Bahasa Indonesia lisan santai, berekspresi, mengalir luwes).
+Voice Archetype: [Archetype yang dipilih dari 1.2]
+Delivery Guidelines:
+1. Deliver a dynamic emotional arc across scenes: start with intense curiosity/shock, drop into relatable sigh and frustration, pause dramatically on the core insight, and rise into confident, smiling enthusiasm for the solution and CTA.
+2. Strictly follow bracketed performance cues like [sigh], [curious], [whisper], [excited].
+3. Respect dramatic pauses indicated by em-dashes (—) and ellipses (...).
+4. Pronounce quoted words with punchy vocal stress without spelling them out letter-by-letter.
+```
 
-  *Catatan: Headline visual 3–5 kata, perkuat pesan inti. Media Type fleksibel (video atau gambar) untuk scene mana pun berdasarkan kebutuhan visual & emosi adegan.*
-- Instruksi Google AI Studio **TTS** & Pemilihan Tokoh Voiceover (Seed-VC)
-
-  AI wajib memilihkan 1 profil suara publik figur yang paling selaras dengan persona audiens & tema aplikasi, atau default jika lebih pas suara generik:
-  - `najwa`: Kritis, artikulatif, bernas, berwibawa, terpercaya (cocok: aplikasi produktivitas, karir, literasi keuangan, pengembangan diri, kesehatan).
-  - `jokowi`: Bersahaja, tenang, membumi, tempo santai, familiar (cocok: aplikasi ibadah/niat, utilitas sehari-hari, UMKM, pertanian, keluarga).
-  - `deddy`: Tegas, hook punchy, intonasi energik/tekanan kuat (cocok: aplikasi gym/fitness, tech, game, motivasi bisnis, aksi cepat).
-  - `default`: Suara Google AI Studio TTS asli tanpa konversi kloning.
-  *(User juga dapat menambahkan folder kustom baru di `assets/voices/<nama_tokoh>/ref.wav`).*
-
-  Voice character: cocok audiens, hindari nada *sales*.
-
-  Tone & Delivery: natural, conversational, emosional secukupnya.
-
-  Pacing: 1,8 kata/detik; jeda napas 0,4s; penekanan pada kata kunci hook & **CTA**.
-
-  Pronunciation: jelaskan cara ucap nama aplikasi & istilah asing.
-
-  Per scene: file terpisah (1.wav, 2.wav, dst.) agar sync.js presisi.
+Per scene audio tetap disimpan sebagai file terpisah (`assets/1.wav`, `assets/2.wav`, dst.) agar `sync.js` dapat membaca durasi gelombang suara aktual secara presisi.
 
 ## BAGIAN 2 — PROMPT GAMBAR GOOGLE FLOW (IMAGEN)
 
@@ -874,7 +903,7 @@ Jumlah scene final 7–9.
 
 Setelah audiens disepakati, sajikan:
 
-Naskah: maksimal 3 kandidat hook berkualitas yang lulus quality gate + skor (jangan isi kuota dengan kandidat lemah), hook utama, tabel naskah 7–9 scene (30–55 detik), instruksi **TTS**.
+Naskah: maksimal 3 kandidat hook berkualitas yang lulus quality gate + skor (jangan isi kuota dengan kandidat lemah), hook utama, pemilihan Ad Voice Archetype, tabel naskah 7–9 scene (30–55 detik) lengkap dengan Vocal Direction emosional & teks fonetik/prosodi TTS, rekomendasi Voice ID Google AI Studio & profil Seed-VC, serta System Prompt Google AI Studio TTS siap pakai.
 
 Visual: 3 Ingredients + prompt visual (Gambar Imagen atau Video Veo 3.1 sesuai kebutuhan scene) + prompt CTA (tanpa flag Midjourney).
 
