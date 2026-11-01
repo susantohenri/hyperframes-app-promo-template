@@ -522,20 +522,23 @@ Modern sleek Android smartphone, clean dark screen with soft subtle glow, held n
 ### 2.3 Formula & Aturan Prompt All-in-One Siap Copas (Imagen 3)
 - **Natural Language Murni:** DILARANG memakai parameter Midjourney seperti `--ar 9:16`, `--v 6`, `--sref`, `--cref`. Rasio 9:16 diatur langsung di dropdown menu UI Google Flow (*Portrait*).
 - **Bahasa Prompt:** Selalu gunakan Bahasa Inggris untuk prompt Imagen & Veo di Google Flow (karena model AI visual Google paling optimal memahami deskripsi bahasa Inggris), meskipun naskah VO dan overlay teks tetap Bahasa Indonesia.
-- **Wajib Ada Ruang Negatif (Negative Space):** Sebutkan posisi ruang kosong (`clean negative space in the upper third` atau `lower third`) agar overlay tipografi, badge, dan headline HyperFrames tidak menutupi wajah atau objek utama.
-- **Tanpa Teks & Watermark:** Wajib menyertakan penutup baku: `shallow depth of field, clean composition, no readable text, no watermark, no logos`.
+- **Wajib Ada Ruang Negatif & Safe Zone Vertikal (9:16):**
+  - **Upper Headroom (Y: 0–250px):** Sediakan ruang bersih di atas (`clean headroom / soft negative space at the top`) agar Header Brand & Google Play CTA Badge tidak menutupi kepala persona atau ujung atas smartphone.
+  - **Center Action Zone (Y: 250–1350px):** Subjek utama (tangan memegang Android smartphone, interaksi layar, ekspresi persona) berpusat di area tengah.
+  - **Lower-Third Safe Zone (Y: 1350–1920px):** Sediakan ruang lebih gelap/tenang di bawah (`clean negative space in the lower third`) agar Subtitle Card & Headline terbaca kontras, serta area dasar layar tetap aman saat ditimpa UI bawaan TikTok, Instagram Reels, dan YouTube Shorts.
+- **Tanpa Teks & Watermark:** Wajib menyertakan penutup baku: `shallow depth of field, clean composition with upper headroom and lower-third negative space, no readable text, no watermark, no logos`.
 - **Format Penyajian per Scene:**
 ```markdown
 ### Scene [Nomor]: [Tujuan/Babak Scene, misal: Context / Problem] ([Image/Video] — [Mode Flow])
 **Prompt Siap Copas Google Flow (All-in-One):**
 ```text
-Vertical 9:16, [Shot type & angle], [Relatable persona & authentic action/expression], holding or interacting with [Modern Android smartphone with soft glowing screen], set in [Detailed environment matching context], illuminated by [Soft directional lighting with project palette tone], shallow depth of field, 35mm lens cinematic aesthetic, clean negative space in the upper third for text overlay, premium commercial finish, no readable text, no watermark.
+Vertical 9:16, [Shot type & angle], [Relatable persona & authentic action/expression], holding or interacting with [Modern Android smartphone with soft glowing screen], centered in frame with comfortable upper headroom and clean lower-third negative space, set in [Detailed environment matching context], illuminated by [Soft directional lighting with project palette tone], shallow depth of field, 35mm lens cinematic aesthetic, premium commercial finish, no readable text, no watermark.
 ```
 ```
 
 ### 2.4 Wajib — Prompt Gambar CTA Siap Copas (Scene Terakhir jika Menggunakan Gambar)
 ```text
-Vertical 9:16 hero shot of a modern Android smartphone held naturally in one hand or resting on a sleek minimal surface, screen showing a clean glowing app interface, warm cinematic lighting with soft rim light, gentle light bloom reflecting on the glass, shallow depth of field, generous clean negative space in the upper third for download headline, premium mobile commercial finish, no readable text, no watermark.
+Vertical 9:16 hero shot of a modern Android smartphone held naturally in one hand or resting on a sleek minimal surface, screen showing a clean glowing app interface, centered vertically with generous upper headroom and clean lower-third negative space for download headline, warm cinematic lighting with soft rim light, gentle light bloom reflecting on the glass, shallow depth of field, premium mobile commercial finish, no readable text, no watermark.
 ```
 *(Ingat: prompt Google Flow menghasilkan gambar latar belakang yang bersih. Semua efek layout, kartu, animasi, dan motion typography akan dieksekusi secara otomatis oleh engine HyperFrames melalui `scenes.json`).*
 
