@@ -56,13 +56,13 @@ Buat aset-aset tersebut menggunakan tool AI masing-masing, lalu simpan ke folder
     * `assets/1.wav`
     * `assets/2.wav`
     * `assets/3.wav`, dst.
-* **Gambar (Google Flow / Imagen):**
-  * Generate gambar 9:16 untuk scene bertipe gambar -> Simpan sebagai:
+* **Gambar (Google Flow / Imagen 3):**
+  * Generate gambar 9:16 portrait di Google Flow menggunakan prompt **All-in-One Siap Copas** dari pipeline (tidak perlu repot merakit atau menggabungkan Ingredient manual) -> Simpan sebagai:
     * `assets/1.jpg` (atau `1_[suffix].jpg`, misal `1_c6a13590.jpg`)
     * `assets/2.jpg` (atau `2_[suffix].jpg`, misal `2_43e16503.jpg`)
     * `assets/3.jpg`, dst.
 * **Video (Google Flow / Google Veo 3.1):**
-  * **Video tidak harus di awal & akhir saja!** Anda bebas menggunakan video untuk scene 1, 2, 3, dst., terutama untuk adegan masalah dinamis atau demonstrasi fitur. Simpan sebagai:
+  * **Video tidak harus di awal & akhir saja!** Anda bebas menggunakan video untuk scene 1, 2, 3, dst., terutama untuk adegan masalah dinamis atau demonstrasi fitur. Prompt video dari pipeline sudah berformat all-in-one lengkap dengan arahan gerak kamera. Simpan sebagai:
     * `assets/1.mp4` atau `assets/intro.mp4` (atau `intro_[suffix].mp4`)
     * `assets/2.mp4`, `assets/3.mp4`, `assets/4.mp4`, dst. (atau `3_[suffix].mp4`)
     * `assets/outro.mp4` atau `assets/7.mp4` (atau `outro_[suffix].mp4`)
@@ -71,6 +71,7 @@ Buat aset-aset tersebut menggunakan tool AI masing-masing, lalu simpan ke folder
     * `assets/bgm.mp3` *(Sifatnya opsional; jika dilewati, video tetap ter-render mulus tanpa BGM)*.
 
 > 💡 **Fitur Deteksi Cerdas & Auto-Type `sync.js`:**
+> - **Prompt Google Flow All-in-One:** Anda tidak perlu pusing menggabungkan Ingredient dan Prompt scene secara terpisah. Setiap prompt yang dihasilkan `PROMPT_PIPELINE.md` sudah langsung utuh dan siap disalin satu klik ke Google Flow.
 > - File hasil unduhan Google Flow yang memiliki suffix acak (seperti `3_c6a13590.mp4`, `intro_04077952.mp4`, dan `2_c6a13590.jpg`) **TIDAK PERLU DI-RENAME!** Script `sync.js` akan otomatis mencocokkan file tersebut ke timeline scene.
 > - **Auto-Switch Type:** Jika Anda mengganti gambar di scene 3 dengan video `3.mp4` (atau sebaliknya), `sync.js` akan otomatis mengubah properti `"type": "video"` di `scenes.json` tanpa Anda perlu mengeditnya manual!
 > - Anda juga bisa langsung mengimpor file aset yang baru diunduh dari folder `Downloads` dengan satu perintah:
@@ -282,6 +283,18 @@ Jika file `assets/bgm.mp3` sudah ada di folder tetapi Anda ingin me-render video
   ```json
   "bgmSrc": "none"
   ```
+
+---
+
+## 📱 Riset Hashtag & Paket Posting Sosmed (Distribution Engine)
+
+Di tahap akhir pembuatan video di [`PROMPT_PIPELINE.md`](./PROMPT_PIPELINE.md), AI secara otomatis menyajikan paket riset metadata dan hashtag siap copas untuk media sosial vertikal (9:16):
+
+* **YouTube Shorts:** Judul click-worthy dengan kata kunci SEO (<60 karakter), deskripsi pengait + link download, hashtags (#shorts + niche + masalah), dan backend tags untuk YouTube Studio.
+* **TikTok:** Caption percakapan berjiwa santai, rekomendasi sound mood, serta racikan hashtag SEO TikTok (FYP, komunitas, dan pain-point).
+* **Instagram & Facebook Reels:** Hook caption 2 baris awal sebelum tombol *more*, deskripsi solutif dengan ajakan download di bio, serta 3-tier hashtag bucket (anti shadowban).
+* **X (Twitter) & Threads:** Micro-copy kritis/relatable dengan maksimal 1–2 hashtag fokus yang disukai algoritma percakapan organik.
+* **Paket 1-Baris Universal:** Satu baris hashtag gabungan yang bisa langsung disalin dalam 1 detik untuk semua platform jika Anda terburu-buru.
 
 ---
 
