@@ -568,7 +568,8 @@ if (fs.existsSync(indexPath)) {
           const sfxStart = start + (parseFloat(sfx.at) || 0);
           const sfxDur = sfx.duration ? ` data-duration="${parseFloat(sfx.duration).toFixed(2)}"` : '';
           const sfxVol = sfx.volume !== undefined ? ` data-volume="${parseFloat(sfx.volume)}"` : '';
-          audioElementsHtml += `\n        <audio id="${sceneId}-sfx-${sfxIdx + 1}" src="${sfx.assetSrc}" data-start="${sfxStart.toFixed(2)}"${sfxDur}${sfxVol} data-track-index="2"></audio>`;
+          const trackIdx = 2 + (sfxIdx % 5);
+          audioElementsHtml += `\n        <audio id="${sceneId}-sfx-${sfxIdx + 1}" src="${sfx.assetSrc}" data-start="${sfxStart.toFixed(2)}"${sfxDur}${sfxVol} data-track-index="${trackIdx}"></audio>`;
         }
       });
     }
