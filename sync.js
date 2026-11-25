@@ -135,11 +135,15 @@ const voiceFlagIdx = args.indexOf('--voice');
 let activeVoiceProfile = null;
 if (voiceFlagIdx !== -1 && args[voiceFlagIdx + 1]) {
   activeVoiceProfile = args[voiceFlagIdx + 1];
-  if (!config.project) config.project = {};
-  if (!config.project.audio) config.project.audio = {};
-  config.project.audio.voiceProfile = activeVoiceProfile;
+  if (config.audio) {
+    config.audio.voiceProfile = activeVoiceProfile;
+  } else {
+    if (!config.project) config.project = {};
+    if (!config.project.audio) config.project.audio = {};
+    config.project.audio.voiceProfile = activeVoiceProfile;
+  }
 } else {
-  activeVoiceProfile = config.project?.audio?.voiceProfile || 'default';
+  activeVoiceProfile = config.audio?.voiceProfile || config.project?.audio?.voiceProfile || 'default';
 }
 
 function runVoiceConversion(voiceProfile) {
@@ -578,7 +582,8 @@ if (fs.existsSync(indexPath)) {
   });
 
   // 3. Background Music (BGM)
-  let bgmSrc = config.project?.audio?.bgmSrc;
+  const audioCfg = config.audio || config.project?.audio || {};
+  let bgmSrc = audioCfg.bgmSrc;
 
   // Cek jika ada argumen CLI --no-bgm
   const disableBgm = args.includes('--no-bgm');
@@ -592,16 +597,20 @@ if (fs.existsSync(indexPath)) {
     const found = bgmCandidates.find(f => fs.existsSync(path.join(assetsDir, f)));
     if (found) {
       bgmSrc = `assets/${found}`;
-      if (!config.project) config.project = {};
-      if (!config.project.audio) config.project.audio = {};
-      config.project.audio.bgmSrc = bgmSrc;
+      if (config.audio) {
+        config.audio.bgmSrc = bgmSrc;
+      } else {
+        if (!config.project) config.project = {};
+        if (!config.project.audio) config.project.audio = {};
+        config.project.audio.bgmSrc = bgmSrc;
+      }
       modified = true;
       console.log(`[sync:bgm] 🎵 Terdeteksi '${bgmSrc}' di folder assets! Mengaktifkan BGM otomatis.`);
     }
   }
 
   if (bgmSrc && !['none', 'off', 'false'].includes(bgmSrc.toLowerCase()) && fs.existsSync(path.join(__dirname, bgmSrc))) {
-    const bgmVol = config.project?.audio?.bgmVolume !== undefined ? config.project.audio.bgmVolume : 0.15;
+    const bgmVol = audioCfg.bgmVolume !== undefined ? audioCfg.bgmVolume : 0.15;
     audioElementsHtml += `\n        <audio id="bgm-audio" src="${bgmSrc}" data-start="0.00" data-duration="${currentStart.toFixed(2)}" data-volume="${bgmVol}" data-track-index="0"></audio>`;
     console.log(`[sync:bgm] 🎵 Background Music aktif: '${bgmSrc}' (Volume: ${bgmVol}, Durasi: ${currentStart.toFixed(2)}s)`);
   } else {
